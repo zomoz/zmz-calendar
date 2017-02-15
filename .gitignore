@@ -1,0 +1,19 @@
+typings
+node_modules
+jspm_packages
+bower_components
+
+# Ignore generated code
+lib
+*.metadata.json
+*.map.js
+/src/**/*.js
+
+# Ignore inlined code
+/src/inlined
+
+# Ignore test coverage 
+coverage
+
+# Never stage generated css
+*.css

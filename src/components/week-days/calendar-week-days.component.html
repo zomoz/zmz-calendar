@@ -1,0 +1,12 @@
+<div class="week-day" *ngFor="let day of weekDays; let i=index" (click)="weekDaySelect(i)" [ngClass]="{ clickable: clickable}">
+  <div class="container">
+    <div class="number">
+      <span> {{day}} </span>
+
+      <div *ngIf="clickable" class="click-arrow">
+        <div class="icon icon-down-chevron"></div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="calendar-nav">
+  <div class="nav-btn" (click)="onPrev()">
+    <div class="icon icon-left-arrow"></div>
+  </div>
+  <div> {{ monthName }} {{ year }} </div>
+  <div class="nav-btn" (click)="onNext()">
+    <div class="icon icon-right-arrow"></div>
+  </div>
+</div>
+<zmz-calendar-week-days (weekday)="onWeekDaySelected($event)" [clickable]="weekDayClickable"></zmz-calendar-week-days>
+<zmz-calendar-month [(year)]="year" [(month)]="month" [stateFn]="stateFn" (dateSelected)="onDateSelected($event)"></zmz-calendar-month>
