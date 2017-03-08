@@ -1,3 +1,14 @@
-/lib
+src
+node_modules
+demo
+spec
+config
+
+karma.conf.js
+webpack.config.js
+gulpfile.js
+travis.yml
+tsconfig.json
+
 *.ngFactory.ts
 *.ts

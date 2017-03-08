@@ -1,14 +1,15 @@
 {
   "name": "zmz-calendar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "angular2 responsive calendar",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
     "clean": "rm -r lib || true",
-    "build:umd": "webpack",
+    "build:umd": "gulp sass && webpack",
     "build:ts": "gulp build",
     "build": "npm-run-all --serial clean build:umd build:ts",
+    "prepublish": "npm run build",
     "test": "gulp sass && karma start"
   },
   "repository": {
