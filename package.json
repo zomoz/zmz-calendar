@@ -1,0 +1,88 @@
+{
+  "name": "zmz-calendar",
+  "version": "0.0.0",
+  "description": "angular2 responsive calendar",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rm -r lib || true",
+    "build:umd": "webpack",
+    "build:ts": "gulp build",
+    "build": "npm-run-all --serial clean build:umd build:ts",
+    "test": "gulp sass && karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoitravel/zmz-calendar.git"
+  },
+  "keywords": [
+    "datepicker",
+    "calendar"
+  ],
+  "author": "Juan Carlos Arocha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zoitravel/zmz-calendar/issues"
+  },
+  "homepage": "https://github.com/zoitravel/zmz-calendar#readme",
+  "devDependencies": {
+    "@angular/common": "^2.4.8",
+    "@angular/compiler": "^2.4.8",
+    "@angular/compiler-cli": "^2.4.7",
+    "@angular/core": "^2.4.8",
+    "@angular/platform-browser": "^2.4.8",
+    "@angular/platform-browser-dynamic": "^2.4.8",
+    "@angular/router": "^3.4.9",
+    "@ngtools/webpack": "^1.2.12",
+    "@types/jasmine": "^2.5.43",
+    "@types/lodash": "^4.14.51",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^7.0.5",
+    "angular2-template-loader": "^0.6.2",
+    "awesome-typescript-loader": "^3.0.4",
+    "core-js": "^2.4.1",
+    "file-loader": "^0.10.1",
+    "gulp": "^3.9.1",
+    "gulp-inline-ng2-template": "^4.0.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-shell": "^0.5.2",
+    "gulp-watch": "^4.3.11",
+    "istanbul-instrumenter-loader": "^2.0.0",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-mocha-reporter": "^2.2.2",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-remap-coverage": "^0.1.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.2",
+    "node-sass": "^4.5.0",
+    "npm-run-all": "^4.0.2",
+    "raw-loader": "^0.5.1",
+    "rxjs": "^5.1.1",
+    "sass-loader": "^6.0.2",
+    "source-map-loader": "^0.1.6",
+    "tslib": "^1.6.0",
+    "typescript": "^2.1.6",
+    "url-loader": "^0.5.8",
+    "webpack": "^2.2.1",
+    "zone.js": "^0.7.7"
+  },
+  "peerDependencies": {
+    "@angular/common": "^2.4.8",
+    "@angular/compiler": "^2.4.8",
+    "@angular/compiler-cli": "^2.4.7",
+    "@angular/core": "^2.4.8",
+    "@angular/platform-browser": "^2.4.8",
+    "@angular/platform-browser-dynamic": "^2.4.8",
+    "@angular/router": "^3.4.9",
+    "rxjs": "^5.1.1",
+    "zone.js": "^0.7.7"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "momentjs": "^2.0.0"
+  }
+}

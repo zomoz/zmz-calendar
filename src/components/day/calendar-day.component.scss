@@ -1,0 +1,68 @@
+:host {
+  width: 100%;
+
+  /* Default: disabled */
+  background-color: #F7F7F7;
+  color: #E5E5E5;
+  border: 1px solid #E5E5E5;
+
+  font-size: 12px;
+
+  cursor: not-allowed;
+
+  /* Prevent double borders */
+  margin: -1px;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+}
+
+.number {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+  display: flex;
+
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  max-width: 100%;
+}
+
+
+// States
+
+:host(.available) {
+  color: #3C424F;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+:host(.available):hover {
+  background-color: #F7F7F7;
+}
+
+:host(.selected) {
+  color: #FFFFFF;
+  background-color: #3E99EF;
+  cursor: pointer;
+}
+
+:host(.unavailable) {
+  color: #3C424F;
+  background-color: #F7F7F7;
+  cursor: pointer;
+}
+
+:host(.other-month) {
+  background-color: #FFFFFF;
+  cursor: not-allowed;
+}

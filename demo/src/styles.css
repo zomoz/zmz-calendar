@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import '/assets/fonts/fontawesome/font-awesome.css';
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('/assets/fonts/Open_Sans/OpenSans-Regular.ttf') format('truetype');
+
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body {
+  font-family: 'Open Sans';
+}
+
+@font-face {
+  font-family: 'ZomoZ';
+  src: url('/assets/fonts/icons/zomoz-font.eot');
+  src: url('/assets/fonts/icons/zomoz-font.eot?#iefix') format('embedded-opentype'),
+  url('/assets/fonts/icons/zomoz-font.woff') format('woff'),
+  url('/assets/fonts/icons/zomoz-font.ttf') format('truetype'),
+  url('/assets/fonts/icons/zomoz-font.svg#ZomoZ') format('svg');
+
+  font-weight: normal;
+  font-style: normal;
+}

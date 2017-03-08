@@ -1,0 +1,79 @@
+:host {
+  width: 100%;
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.week-day {
+  width: 100%;
+}
+
+.container {
+  position: relative;
+
+  width: 100%;
+  padding-bottom: 88%;
+}
+
+.number {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  max-width: 100%;
+}
+
+.clickable {
+  cursor: pointer;
+  color: #3E99EF;
+}
+
+.click-arrow {
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  max-width: 100%;
+
+}
+
+.icon {
+  font-size: 12px;
+  height: 1em;
+  width: 1em;
+}
+
+.icon:before {
+  font-family: 'ZomoZ', sans-serif !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal !important;
+  font-variant: normal !important;
+  font-weight: normal !important;
+  line-height: 1;
+  text-transform: none !important;
+  speak: none;
+}
+
+.icon-down-chevron:before {
+  content: '\6f'
+}

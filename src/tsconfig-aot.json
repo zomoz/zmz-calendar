@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "baseUrl": "./inlined",
+    "stripInternal": true,
+    "outDir": "../lib",
+    "rootDir": "./inlined",
+    "sourceMap": true,
+    "inlineSources": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "../node_modules/@types"
+    ]
+  },
+  "files": [
+    "./inlined/index.ts",
+    "./inlined/types.ts",
+    "./inlined/calendar.module.ts",
+    "./inlined/components/day/calendar-day.component.ts",
+    "./inlined/components/week-days/calendar-week-days.component.ts",
+    "./inlined/components/month/calendar-month.component.ts",
+    "./inlined/components/calendar/calendar.component.ts",
+    "./inlined/helpers/index.ts",
+    "./inlined/helpers/helpers.ts",
+    "./inlined/services/calendar-state.service.ts",
+    "./inlined/services/index.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "../lib",
+    "debug": true,
+    "skipTemplateCodegen": true
+  }
+}
