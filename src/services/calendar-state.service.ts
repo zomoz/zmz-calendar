@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
-import { isArray } from 'lodash';
+import { isArray, keys } from 'lodash';
 
 import { dateHash } from '../helpers';
 import { DateMap, State, StateMap } from '../types';
@@ -70,5 +70,13 @@ export class CalendarState {
       const index = states.findIndex((st) => st === state);
       if (index !== -1) { states.splice(index, 1); }
     }
+  }
+
+  getAll(state: State): moment.Moment[] {
+    const all = keys(this.map).filter((hash) =>
+      isArray(this.map[hash]) ? this.map[hash].findIndex((st) => st === state) !== -1 : false
+    );
+
+    return all.map((hash) => moment(hash));
   }
 }
