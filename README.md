@@ -53,10 +53,11 @@ This component holds all the calendar logic. It's intend to be a dumb component 
 3. month: The number of the month to be initialy displayed. It's 1-based
 4. year: The number of the year to be initialy displayed.
 
-#### Output
+#### Outputs
 
   1. dateSelected: Emits whenever a date is clicked (and is enabled)
   2. weekDaySelected: Emits whenever a weekday is clicked and weekDayClickable is true
+  3. monthChange: Emits with current month and year whenever the month is changed. It also emits OnInit
 
 ### Service `CalendarState`
 
@@ -80,6 +81,8 @@ You can use them importing `STATES` from the library: `import { STATES } from 'z
 3. toggle(date: moment.Moment, state: State): Toggles a state in a date (if it was present it's removed)
 4. has(date: moment.Moment, state: State): True if the date has the specified state
 5. get(date: moment.Moment): Gets an array of states from a date
+6. remove(date: moment.Moment, state: State): Removes the state from date. If it doesn't exist, it's noop
+7. getAll(state: State): Returns an array of moment from those dates matching the state state
 
 You should instantiate a `CalendarState` and use its api to modify it
 
