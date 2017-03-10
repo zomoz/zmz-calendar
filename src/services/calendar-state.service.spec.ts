@@ -46,4 +46,12 @@ describe('state class', () => {
     expect(mapState).toEqual(['']);
   });
 
+  it('should remove the state SELECTED when using remove(date, SELECTED)', () => {
+    const SELECTED = STATES.SELECTED;
+    state.set(date, SELECTED);
+    state.remove(date, SELECTED);
+    const mapState = state.map[dateHash(date)];
+    expect(mapState).toEqual(['']);
+  });
+
 });
