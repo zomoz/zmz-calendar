@@ -62,4 +62,13 @@ export class CalendarState {
     const hash = dateHash(date);
     return this.map[hash] || [];
   }
+
+  remove(date: moment.Moment, state: State) {
+    const hash = dateHash(date);
+    let states = this.map[hash];
+    if (isArray(states)) {
+      const index = states.findIndex((st) => st === state);
+      if (index !== -1) { states.splice(index, 1); }
+    }
+  }
 }
