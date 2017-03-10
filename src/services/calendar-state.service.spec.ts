@@ -54,4 +54,34 @@ describe('state class', () => {
     expect(mapState).toEqual(['']);
   });
 
+  it('should get all dates with state SELECTED', () => {
+    const SELECTED = STATES.SELECTED;
+    const AVAILABLE = STATES.AVAILABLE;
+    const date1 = moment().add(1, 'day');
+    const date2 = moment().add(2, 'day');
+
+    state.set(date, SELECTED);
+    state.set(date1, SELECTED);
+    state.set(date2, AVAILABLE);
+
+    const result = state.getAll(SELECTED);
+    expect(result.length).toBe(2);
+    expect(result[0].format('YYYY-MM-DD')).toEqual(date.format('YYYY-MM-DD'));
+    expect(result[1].format('YYYY-MM-DD')).toEqual(date1.format('YYYY-MM-DD'));
+  });
+
+  it('should get empty array of dates with state SELECTED', () => {
+    const AVAILABLE = STATES.AVAILABLE;
+    const date1 = moment().add(1, 'day');
+    const date2 = moment().add(2, 'day');
+
+    state.set(date, AVAILABLE);
+    state.set(date1, AVAILABLE);
+    state.set(date2, AVAILABLE);
+
+    const SELECTED = STATES.SELECTED;
+    const result = state.getAll(SELECTED);
+    expect(result.length).toBe(0);
+  });
+
 });
