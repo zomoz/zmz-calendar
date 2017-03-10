@@ -47,7 +47,7 @@
 }
 
 :host(.available):hover {
-  background-color: #F7F7F7;
+  background-color: #C9C9C9;
 }
 
 :host(.selected) {
@@ -60,6 +60,10 @@
   color: #3C424F;
   background-color: #F7F7F7;
   cursor: pointer;
+}
+
+:host(.unavailable):hover {
+  background-color: #C9C9C9;
 }
 
 :host(.other-month) {
