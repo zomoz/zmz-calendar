@@ -1,4 +1,4 @@
 <div style="max-width: 500px; width: 100%">
-  <zmz-calendar [state]="state" [config]="config" (dateSelected)="onDateSelected($event)"></zmz-calendar>
+  <zmz-calendar [state]="state" [config]="config" (monthChange)="monthChange($event)" (dateSelected)="onDateSelected($event)"></zmz-calendar>
 </div>
-<div> {{ date }} </div>
+<input type="checkbox" [(ngModel)]="selectMonth"/> Seleccionar todo el mes

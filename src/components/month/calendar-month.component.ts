@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 
 import { State } from '../../types';
@@ -7,10 +7,7 @@ import { weeksToShow } from '../../helpers';
 @Component({
   selector: 'zmz-calendar-month',
   templateUrl: './calendar-month.component.html',
-  styleUrls: [ './calendar-month.component.css' ],
-
-  // We know exactly when to trigger change detection.
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: [ './calendar-month.component.css' ]
 })
 export class CalendarMonthComponent implements OnInit {
   @Input() month: number;
@@ -23,8 +20,6 @@ export class CalendarMonthComponent implements OnInit {
   @Output() dateSelected: EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
 
   weeks: moment.Moment[][] = [];
-
-  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() { this.buildMonth(); }
 
@@ -76,8 +71,6 @@ export class CalendarMonthComponent implements OnInit {
 
   buildMonth() {
     this.weeks = weeksToShow(this.month, this.year);
-    // Only mark for check when a month is built
-    this.cd.markForCheck();
   }
 
   trackDate(index: number, date: moment.Moment) { return date.toISOString(); }
