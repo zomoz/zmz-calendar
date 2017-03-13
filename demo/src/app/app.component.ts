@@ -11,7 +11,13 @@ import * as moment from 'moment';
 export class AppComponent {
   date: string;
   state: CalendarState;
-  config = { locale: 'es', weekDayClickable: true };
+  config = {
+    locale: 'es',
+    weekDayClickable: true,
+    validRange: {
+      to: moment().add(1, 'month')
+    }
+  };
   private _selectMonth: boolean;
   month: number;
   year: number;
