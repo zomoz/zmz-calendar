@@ -14,9 +14,7 @@ export class AppComponent {
   config = {
     locale: 'es',
     weekDayClickable: true,
-    validRange: {
-      to: moment().add(1, 'month')
-    }
+    navigationStrategy: 'state'
   };
   private _selectMonth: boolean;
   month: number;

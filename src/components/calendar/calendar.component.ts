@@ -3,8 +3,9 @@ import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angu
 import * as moment from 'moment';
 
 import { CalendarMonthComponent } from '../month/calendar-month.component';
-import { CalendarConfig, State } from '../../types';
+import { CalendarConfig, State, NavigationStrategy } from '../../types';
 import { CalendarState, STATES } from '../../services';
+import { firstDateToShow, lastDateToShow } from '../../helpers';
 
 
 @Component({
@@ -27,23 +28,32 @@ export class CalendarComponent implements OnInit {
   weekDayClickable: boolean;
   completeMonth: boolean;
 
-  constructor() {}
+  navigationStrategy: string | NavigationStrategy;
+  navigationState: State;
+
+  validRange: { from?: moment.Moment, to?: moment.Moment };
 
   ngOnInit() {
     const {
       locale = 'es',
+      // weekdays, complete month and nav strategy clickable defaults to false
       weekDayClickable = false,
       completeMonths = false,
+      navigationStrategy = false,
+      navigationState = STATES.AVAILABLE,
       validRange = {}
     } = this.config || {} as CalendarConfig; 
 
     // Set locale
     moment.locale(locale);
 
-    // weekdays clickable defaults to false
     this.weekDayClickable = weekDayClickable;
-    // Complete month defaults to false too
     this.completeMonth = completeMonths;
+
+    this.navigationStrategy = navigationStrategy as NavigationStrategy;
+    this.navigationState = navigationState;
+
+    this.validRange = validRange;
 
     // Month and year defaults to currents
     const today = moment();
@@ -56,9 +66,9 @@ export class CalendarComponent implements OnInit {
 
     if (this.state) {
       this.stateFn = (date: moment.Moment) => {
-        if (validRange && validRange.from && validRange.from.isAfter(date)) {
+        if (this.validRange && this.validRange.from && this.validRange.from.isAfter(date)) {
           return [STATES.DISABLED];
-        } else if (validRange && validRange.to && validRange.to.isBefore(date)) {
+        } else if (this.validRange && this.validRange.to && this.validRange.to.isBefore(date)) {
           return [STATES.DISABLED];
         } else {
           return this.state.get(date);
@@ -67,14 +77,48 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  canGoNext() {
+    if (!this.navigationStrategy) { return true; }
+
+    switch (this.navigationStrategy ) {
+      case 'validRange':
+        return this.validRange && this.validRange.to ? 
+               lastDateToShow(this.month, this.year).isBefore(this.validRange.to) : true; 
+
+      case 'state':
+        return lastDateToShow(this.month, this.year).isBefore(this.state.getLast(this.navigationState));
+
+      default: return true;
+    }
+  }
+
+  canGoPrev() {
+    if (!this.navigationStrategy) { return true; }
+
+    switch (this.navigationStrategy ) {
+      case 'validRange':
+        return this.validRange && this.validRange.from ? 
+               firstDateToShow(this.month, this.year).isAfter(this.validRange.from) : true; 
+
+      case 'state':
+        return firstDateToShow(this.month, this.year).isAfter(this.state.getFirst(this.navigationState));
+
+      default: return true;
+    }
+  }
+
   onNext() {
-    this.monthCmp.next();
-    this.monthChange.emit({ year: this.year, month: this.month });
+    if (this.canGoNext()) {
+      this.monthCmp.next();
+      this.monthChange.emit({ year: this.year, month: this.month });
+    }
   }
 
   onPrev() {
-    this.monthCmp.prev();
-    this.monthChange.emit({ year: this.year, month: this.month });
+    if (this.canGoPrev()) {
+      this.monthCmp.prev();
+      this.monthChange.emit({ year: this.year, month: this.month });
+    }
   }
 
   onDateSelected(date: moment.Moment) {
@@ -89,4 +133,5 @@ export class CalendarComponent implements OnInit {
     const monthName = moment.months()[this.month - 1];
     return `${monthName.charAt(0).toUpperCase()}${monthName.slice(1)}`;
   }
+
 }

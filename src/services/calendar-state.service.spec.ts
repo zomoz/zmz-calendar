@@ -84,4 +84,32 @@ describe('state class', () => {
     expect(result.length).toBe(0);
   });
 
+  it('should get first date with state AVAILABLE', () => {
+
+    const AVAILABLE = STATES.AVAILABLE;
+    const date1 = moment().subtract(1, 'day');
+    const date2 = moment().add(2, 'day');
+
+    state.set(date, AVAILABLE);
+    state.set(date1, AVAILABLE);
+    state.set(date2, AVAILABLE);
+
+    const result = state.getFirst(AVAILABLE);
+    expect(result.format('YYYY-MM-DD')).toEqual(date1.format('YYYY-MM-DD'));
+  });
+
+  it('should get last date with state AVAILABLE', () => {
+
+    const AVAILABLE = STATES.AVAILABLE;
+    const date1 = moment().subtract(1, 'day');
+    const date2 = moment().add(2, 'day');
+
+    state.set(date, AVAILABLE);
+    state.set(date1, AVAILABLE);
+    state.set(date2, AVAILABLE);
+
+    const result = state.getLast(AVAILABLE);
+    expect(result.format('YYYY-MM-DD')).toEqual(date2.format('YYYY-MM-DD'));
+  });
+
 });

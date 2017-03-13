@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
-import { isArray, keys } from 'lodash';
+import { isArray, keys, sortBy } from 'lodash';
 
 import { dateHash } from '../helpers';
 import { DateMap, State, StateMap } from '../types';
@@ -78,5 +78,15 @@ export class CalendarState {
     );
 
     return all.map((hash) => moment(hash));
+  }
+
+  getLast(state: State): moment.Moment {
+    const all = sortBy(this.getAll(state));
+    return all[all.length - 1];
+  }
+
+  getFirst(state: State): moment.Moment {
+    const all = sortBy(this.getAll(state));
+    return all[0];
   }
 }
