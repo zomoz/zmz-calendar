@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { CalendarMonthComponent } from '../month/calendar-month.component';
 import { CalendarConfig, State } from '../../types';
-import { CalendarState } from '../../services';
+import { CalendarState, STATES } from '../../services';
 
 
 @Component({
@@ -30,16 +30,20 @@ export class CalendarComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    const defaultLocale = 'es';
-    const { locale, weekDayClickable, completeMonths } = this.config; 
+    const {
+      locale = 'es',
+      weekDayClickable = false,
+      completeMonths = false,
+      validRange = {}
+    } = this.config || {} as CalendarConfig; 
 
     // Set locale
-    moment.locale(locale ? locale : defaultLocale);
+    moment.locale(locale);
 
     // weekdays clickable defaults to false
-    this.weekDayClickable = weekDayClickable || false;
+    this.weekDayClickable = weekDayClickable;
     // Complete month defaults to false too
-    this.completeMonth = completeMonths || false;
+    this.completeMonth = completeMonths;
 
     // Month and year defaults to currents
     const today = moment();
@@ -52,7 +56,13 @@ export class CalendarComponent implements OnInit {
 
     if (this.state) {
       this.stateFn = (date: moment.Moment) => {
-        return this.state.get(date);
+        if (validRange && validRange.from && validRange.from.isAfter(date)) {
+          return [STATES.DISABLED];
+        } else if (validRange && validRange.to && validRange.to.isBefore(date)) {
+          return [STATES.DISABLED];
+        } else {
+          return this.state.get(date);
+        }
       }
     }
   }

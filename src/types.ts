@@ -24,4 +24,8 @@ export interface CalendarConfig {
   locale?: Locale;
   weekDayClickable?: boolean;
   completeMonths?: boolean;
+  validRange?: {
+    from?: moment.Moment,
+    to?: moment.Moment
+  }
 }
