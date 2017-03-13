@@ -49,6 +49,14 @@ This component holds all the calendar logic. It's intend to be a dumb component 
     1. locale (_optional_): The calendar locale to use. It uses [moment](https://momentjs.com/docs/) locale and defaults to `es`
     2. weekDayClickable (_optional_): True if the week days are clickable and emit the day number on click. Defaults to `false`
     3. completeMonths (_optional_): True if we want the calendar to show days of othe months in the current month. Defaults to `false`
+    4. validRange (_optional_): Object containing `from` and `to` setting all dates outside the range as disabled. Is any boundary is missing, 
+    then it's taken as infinite. 
+    5. navigationStrategy (_optional_): The strategy to enable/disable calendar navigation
+        1. false or undefined: Navigation always enabled 
+        2. _validRange_: Based on validRange configuration. It disables navigation if next/prev month is outside validRange
+        3. _state_: Based on the calendar state. It looks for the first and last date with `navigationState` state and disables 
+        the navigation for the dates outside that range. If `navigationState` is not provided, it defaults to `available`
+    6. navigationState: State used in the _state_ navigation strategy.
 2. state: CalendarState indicating how the dates are displayed. More details below
 3. month: The number of the month to be initialy displayed. It's 1-based
 4. year: The number of the year to be initialy displayed.
@@ -83,6 +91,8 @@ You can use them importing `STATES` from the library: `import { STATES } from 'z
 5. get(date: moment.Moment): Gets an array of states from a date
 6. remove(date: moment.Moment, state: State): Removes the state from date. If it doesn't exist, it's noop
 7. getAll(state: State): Returns an array of moment from those dates matching the state state
+8. getFirst(state: State): Returns the first date matching the state state as a moment
+9. getLast(state: State): Returns the last date matching the state state as a moment
 
 You should instantiate a `CalendarState` and use its api to modify it
 
