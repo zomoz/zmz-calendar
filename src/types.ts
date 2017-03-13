@@ -20,6 +20,8 @@ export interface DateMap {
 
 export type Locale = 'en' | 'es';
 
+export type NavigationStrategy = 'validRange' | 'state' | boolean;
+
 export interface CalendarConfig {
   locale?: Locale;
   weekDayClickable?: boolean;
@@ -27,5 +29,7 @@ export interface CalendarConfig {
   validRange?: {
     from?: moment.Moment,
     to?: moment.Moment
-  }
+  };
+  navigationStrategy?: NavigationStrategy;
+  navigationState?: State;
 }
