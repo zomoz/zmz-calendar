@@ -14,15 +14,19 @@ export class AppComponent {
   config = {
     locale: 'es',
     weekDayClickable: true,
+    validRange: {
+      from: moment().subtract(1, 'day')
+    },
     navigationStrategy: 'state'
   };
-  private _selectMonth: boolean;
+  private _selectMonth = true;
   month: number;
   year: number;
 
   constructor() {
     const dates = this.dates();
     this.state = new CalendarState(dates, STATES.AVAILABLE);
+    moment.locale('es');
   }
 
   onDateSelected(date: moment.Moment) {
@@ -32,11 +36,25 @@ export class AppComponent {
       const isUnAvailable = this.state.has(date, STATES.UNAVAILABLE);
 
       if (isUnAvailable) {
+        this.state.remove(date, STATES.UNAVAILABLE);
         this.state.set(date, STATES.AVAILABLE);
       } else if (isAvailable) {
+        this.state.remove(date, STATES.AVAILABLE);
         this.state.set(date, STATES.UNAVAILABLE);
       }
+    }
+  }
 
+  onWeekDaySelected(day: number) {
+    const days = this.getMonth(this.month, this.year).filter((date: moment.Moment) => date.weekday() === day);
+    const isUnAvailable = days.findIndex((day) => this.state.has(day, STATES.UNAVAILABLE)) !== -1;
+
+    if (isUnAvailable) {
+      this.remove(days, STATES.UNAVAILABLE);
+      this.set(days, STATES.AVAILABLE);
+    } else {
+      this.remove(days, STATES.AVAILABLE);
+      this.set(days, STATES.UNAVAILABLE);
     }
   }
 
@@ -106,3 +124,4 @@ export class AppComponent {
     return result;
   }
 }
+
