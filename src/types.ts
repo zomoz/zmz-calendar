@@ -23,6 +23,7 @@ export type Locale = 'en' | 'es';
 export type NavigationStrategy = 'validRange' | 'state' | boolean;
 
 export interface CalendarConfig {
+  theme?: string;
   locale?: Locale;
   weekDayClickable?: boolean;
   completeMonths?: boolean;

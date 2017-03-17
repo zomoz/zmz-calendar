@@ -1,11 +1,11 @@
-<div class="calendar-nav">
-  <div class="nav-btn" [ngClass]="{disabled: !canGoPrev()}" (click)="onPrev()">
-    <div class="icon icon-left-arrow"></div>
+<div class="calendar-nav" [ngClass]="{'calendar-nav-show': theme === 'show'}">
+  <div class="nav-btn" [ngClass]="{disabled: !canGoPrev(), 'nav-btn-form': theme === 'form'}" (click)="onPrev()">
+    <div class="icon" [ngClass]="{'icon-chevron-left': theme === 'show', 'icon-left-arrow': theme === 'form'}"></div>
   </div>
   <div> {{ monthName }} {{ year }} </div>
-  <div class="nav-btn" [ngClass]="{disabled: !canGoNext()}" (click)="onNext()">
-    <div class="icon icon-right-arrow"></div>
+  <div class="nav-btn" [ngClass]="{disabled: !canGoNext(), 'nav-btn-form': theme === 'form'}" (click)="onNext()">
+    <div class="icon" [ngClass]="{'icon-chevron-right': theme === 'show', 'icon-right-arrow': theme === 'form'}"></div>
   </div>
 </div>
-<zmz-calendar-week-days (weekday)="onWeekDaySelected($event)" [clickable]="weekDayClickable"></zmz-calendar-week-days>
+<zmz-calendar-week-days (weekday)="onWeekDaySelected($event)" [clickable]="weekDayClickable" [theme]="theme"></zmz-calendar-week-days>
 <zmz-calendar-month [(year)]="year" [(month)]="month" [stateFn]="stateFn" (dateSelected)="onDateSelected($event)"></zmz-calendar-month>

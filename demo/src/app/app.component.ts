@@ -12,8 +12,9 @@ export class AppComponent {
   date: string;
   state: CalendarState;
   config = {
+    theme: 'form',
     locale: 'es',
-    weekDayClickable: true,
+    weekDayClickable: false,
     validRange: {
       from: moment().subtract(1, 'day')
     },

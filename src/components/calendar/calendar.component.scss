@@ -9,13 +9,15 @@
   align-content: center;
 
   max-width: 100%;
+
+  &-show {
+    background-color: #e5e5e5;
+  }
 }
 
 .nav-btn {
   color: #3e99f0;
-  border: 1px solid #3e99f0;
-  border-radius: 5px;
-
+  
   box-sizing: border-box;
   display: flex;
 
@@ -35,6 +37,11 @@
   &.disabled {
     color: #E5E5E5;
     border-color: #E5E5E5;
+  }
+
+  &-form{
+    border: 1px solid #3e99f0;
+    border-radius: 5px;
   }
 }
 
@@ -63,6 +70,16 @@
   line-height: 1;
   text-transform: none !important;
   speak: none;
+}
+
+.icon-chevron-right:before {
+  content: '\6e';
+  font-size: 15px;
+}
+
+.icon-chevron-left:before {
+  content: '\70';
+  font-size: 15px;
 }
 
 .icon-right-arrow:before {

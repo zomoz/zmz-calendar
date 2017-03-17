@@ -33,8 +33,11 @@ export class CalendarComponent implements OnInit {
 
   validRange: { from?: moment.Moment, to?: moment.Moment };
 
+  theme: string;
+
   ngOnInit() {
     const {
+      theme = 'form',
       locale = 'es',
       // weekdays, complete month and nav strategy clickable defaults to false
       weekDayClickable = false,
@@ -46,6 +49,8 @@ export class CalendarComponent implements OnInit {
 
     // Set locale
     moment.locale(locale);
+
+    this.theme = theme;
 
     this.weekDayClickable = weekDayClickable;
     this.completeMonth = completeMonths;
@@ -62,7 +67,6 @@ export class CalendarComponent implements OnInit {
 
     // First emission when calendar is initialized
     this.monthChange.emit({ year: this.year, month: this.month });
-
 
     if (this.state) {
       this.stateFn = (date: moment.Moment) => {
