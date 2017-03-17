@@ -56,7 +56,8 @@ This component holds all the calendar logic. It's intend to be a dumb component 
         2. _validRange_: Based on validRange configuration. It disables navigation if next/prev month is outside validRange
         3. _state_: Based on the calendar state. It looks for the first and last date with `navigationState` state and disables 
         the navigation for the dates outside that range. If `navigationState` is not provided, it defaults to `available`
-    6. navigationState: State used in the _state_ navigation strategy.
+    6. navigationState (_optional_): State used in the _state_ navigation strategy.
+    7. theme (_optional_): Set calendar styles. Possible values `form` or `show`.
 2. state: CalendarState indicating how the dates are displayed. More details below
 3. month: The number of the month to be initialy displayed. It's 1-based
 4. year: The number of the year to be initialy displayed.
