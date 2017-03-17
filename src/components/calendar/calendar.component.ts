@@ -3,7 +3,7 @@ import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angu
 import * as moment from 'moment';
 
 import { CalendarMonthComponent } from '../month/calendar-month.component';
-import { CalendarConfig, State, NavigationStrategy } from '../../types';
+import { CalendarConfig, State, NavigationStrategy, Theme } from '../../types';
 import { CalendarState, STATES } from '../../services';
 import { firstDateToShow, lastDateToShow } from '../../helpers';
 
@@ -33,7 +33,7 @@ export class CalendarComponent implements OnInit {
 
   validRange: { from?: moment.Moment, to?: moment.Moment };
 
-  theme: string;
+  theme: Theme;
 
   ngOnInit() {
     const {

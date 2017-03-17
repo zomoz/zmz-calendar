@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
+import { Theme } from '../../types';
 
 @Component({
   selector: 'zmz-calendar-week-days',
@@ -8,7 +9,7 @@ import * as moment from 'moment';
 })
 export class CalendarWeekDaysComponent implements OnInit {
   @Input() clickable: boolean;
-  @Input() theme: string = 'form';
+  @Input() theme: Theme = 'form';
   @Output() weekday: EventEmitter<number> = new EventEmitter<number>();
 
   weekDays: string[];

@@ -22,8 +22,10 @@ export type Locale = 'en' | 'es';
 
 export type NavigationStrategy = 'validRange' | 'state' | boolean;
 
+export type Theme = 'form' | 'show';
+
 export interface CalendarConfig {
-  theme?: string;
+  theme?: Theme;
   locale?: Locale;
   weekDayClickable?: boolean;
   completeMonths?: boolean;
