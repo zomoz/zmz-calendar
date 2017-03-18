@@ -15,6 +15,7 @@ export class AppComponent {
     theme: 'form',
     locale: 'es',
     weekDayClickable: false,
+    completeMonths: true,
     validRange: {
       from: moment().subtract(1, 'day')
     },
