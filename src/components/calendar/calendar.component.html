@@ -8,4 +8,4 @@
   </div>
 </div>
 <zmz-calendar-week-days (weekday)="onWeekDaySelected($event)" [clickable]="weekDayClickable" [theme]="theme"></zmz-calendar-week-days>
-<zmz-calendar-month [(year)]="year" [(month)]="month" [stateFn]="stateFn" (dateSelected)="onDateSelected($event)"></zmz-calendar-month>
+<zmz-calendar-month [(year)]="year" [(month)]="month" [stateFn]="stateFn" [completeMonth]="completeMonth" (dateSelected)="onDateSelected($event)"></zmz-calendar-month>
