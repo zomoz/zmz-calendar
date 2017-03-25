@@ -84,6 +84,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "momentjs": "^2.0.0"
+    "moment": "^2.18.1"
   }
 }
