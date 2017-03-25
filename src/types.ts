@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 
 export type State = 'selected'  // Selected date
-                    | 'selectable'
-                    | 'not-selectable'
                     | 'available'  // Available date
                     | 'unavailable' // Unavailable date (visibly unavailable but might accept actions on it)
                     | 'disabled' // Disabled date (can't perform any action on it)
+                    | 'selectable' // Makes the date selectable
+                    | 'not-selectable' // Makes the date not selectable
                     | ''; // No state
 
 export interface StateMap<T> {
