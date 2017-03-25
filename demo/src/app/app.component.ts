@@ -17,9 +17,10 @@ export class AppComponent {
     weekDayClickable: false,
     completeMonths: true,
     validRange: {
-      from: moment().subtract(1, 'day')
+      from: moment().subtract(1, 'day'),
+      to: moment().add(1, 'year')
     },
-    navigationStrategy: 'state'
+    navigationStrategy: 'validRange'
   };
   private _selectMonth = true;
   month: number;
@@ -27,22 +28,22 @@ export class AppComponent {
 
   constructor() {
     const dates = this.dates();
-    this.state = new CalendarState(dates, STATES.AVAILABLE);
+    this.state = new CalendarState(dates, STATES.SELECTABLE);
     moment.locale('es');
   }
 
   onDateSelected(date: moment.Moment) {
     const isDisabled = this.state.has(date, STATES.DISABLED);
     if (!isDisabled) {
-      const isAvailable = this.state.has(date, STATES.AVAILABLE);
-      const isUnAvailable = this.state.has(date, STATES.UNAVAILABLE);
+      const isSelectable = this.state.has(date, STATES.SELECTABLE);
+      const isNotSelectable = this.state.has(date, STATES.NOT_SELECTABLE);
 
-      if (isUnAvailable) {
-        this.state.remove(date, STATES.UNAVAILABLE);
-        this.state.set(date, STATES.AVAILABLE);
-      } else if (isAvailable) {
-        this.state.remove(date, STATES.AVAILABLE);
-        this.state.set(date, STATES.UNAVAILABLE);
+      if (isSelectable) {
+        this.state.remove(date, STATES.SELECTABLE);
+        this.state.set(date, STATES.NOT_SELECTABLE);
+      } else if (isNotSelectable) {
+        this.state.remove(date, STATES.NOT_SELECTABLE);
+        this.state.set(date, STATES.SELECTABLE);
       }
     }
   }
