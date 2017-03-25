@@ -11,7 +11,9 @@ export const STATES: StateMap<State> = {
   DISABLED: 'disabled',
   UNAVAILABLE: 'unavailable',
   AVAILABLE: 'available',
-  SELECTED: 'selected'
+  SELECTED: 'selected',
+  SELECTABLE: 'selectable',
+  NOT_SELECTABLE: 'not-selectable'
 };
 
 @Injectable()

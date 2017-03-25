@@ -4,6 +4,8 @@ export type State = 'selected'  // Selected date
                     | 'available'  // Available date
                     | 'unavailable' // Unavailable date (visibly unavailable but might accept actions on it)
                     | 'disabled' // Disabled date (can't perform any action on it)
+                    | 'selectable' // Makes the date selectable
+                    | 'not-selectable' // Makes the date not selectable
                     | ''; // No state
 
 export interface StateMap<T> {
@@ -12,6 +14,8 @@ export interface StateMap<T> {
   UNAVAILABLE: T;
   AVAILABLE: T;
   SELECTED: T;
+  SELECTABLE?: T;
+  NOT_SELECTABLE?: T;
 }
 
 export interface DateMap {
