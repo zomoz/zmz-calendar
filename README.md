@@ -80,6 +80,8 @@ they're displayed according to them
 3. UNAVAILABLE: clickable with unavailable styles
 4. AVAILABLE: clickable with available styles
 5. SELECTED: clickable with selected styles
+6. SELECTABLE: clickable with selectable styles
+7. NOT_SELECTABLE: clickable with not-selectable styles
 
 You can use them importing `STATES` from the library: `import { STATES } from 'zmz-calendar'`.
 
