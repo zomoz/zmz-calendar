@@ -50,6 +50,27 @@
   background-color: #C9C9C9;
 }
 
+:host(.selectable) {
+  color: #3C424F;
+  background-color: rgba(54, 183, 72, 0.2);
+  border-color: #FFFFFF;
+  cursor: pointer;
+}
+
+:host(.selectable):hover {
+  background-color: rgba(54, 183, 72, 0.6);
+}
+
+:host(.not-selectable) {
+  color: #3C424F;
+  background-color: #D9D9D9;
+  cursor: pointer;
+}
+
+:host(.not-selectable):hover {
+  background-color: #C9C9C9;
+}
+
 :host(.selected) {
   color: #FFFFFF;
   background-color: #3E99EF;
