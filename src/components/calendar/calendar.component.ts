@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 import { CalendarMonthComponent } from '../month/calendar-month.component';
 import { CalendarConfig, State, NavigationStrategy, Theme } from '../../types';
-import { CalendarState, STATES } from '../../services';
+import { CalendarState, STATES } from '../../classes';
 import { firstDateToShow, lastDateToShow } from '../../helpers';
 
 

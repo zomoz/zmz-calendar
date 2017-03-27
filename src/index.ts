@@ -1,3 +1,3 @@
 export * from './calendar.module';
-export * from './services/calendar-state.service';
+export * from './classes/calendar-state';
 export { State } from './types';

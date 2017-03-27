@@ -31,8 +31,8 @@
     "./inlined/components/calendar/calendar.component.ts",
     "./inlined/helpers/index.ts",
     "./inlined/helpers/helpers.ts",
-    "./inlined/services/calendar-state.service.ts",
-    "./inlined/services/index.ts"
+    "./inlined/classes/calendar-state.ts",
+    "./inlined/classes/index.ts"
   ],
   "angularCompilerOptions": {
     "genDir": "../lib",

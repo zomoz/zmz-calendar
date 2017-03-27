@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import { CalendarState, STATES } from './calendar-state.service';
+import { CalendarState, STATES } from './calendar-state';
 import { State } from '../types';
 import { dateHash } from '../helpers';
 
