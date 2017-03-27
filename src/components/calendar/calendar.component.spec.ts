@@ -4,7 +4,7 @@ import { DebugElement }    from '@angular/core';
 
 import * as moment from 'moment';
 
-import { STATES, CalendarState } from '../../services';
+import { STATES, CalendarState } from '../../classes';
 import { CalendarDayComponent } from '../day';
 import { CalendarMonthComponent } from '../month';
 import { CalendarWeekDaysComponent } from '../week-days';

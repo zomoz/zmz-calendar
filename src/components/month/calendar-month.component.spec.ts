@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
 
-import { STATES } from '../../services';
+import { STATES } from '../../classes';
 import { CalendarDayComponent } from '../day';
 import { CalendarMonthComponent } from './calendar-month.component';
 

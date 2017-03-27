@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
 import { isArray, keys, sortBy } from 'lodash';
@@ -6,6 +5,7 @@ import { isArray, keys, sortBy } from 'lodash';
 import { dateHash } from '../helpers';
 import { DateMap, State, StateMap } from '../types';
 
+// TODO add tests extending states
 export const STATES: StateMap<State> = {
   NO_STATE: '',
   DISABLED: 'disabled',
@@ -16,7 +16,6 @@ export const STATES: StateMap<State> = {
   NOT_SELECTABLE: 'not-selectable'
 };
 
-@Injectable()
 export class CalendarState {
   map: DateMap;
 
