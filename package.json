@@ -27,13 +27,13 @@
   },
   "homepage": "https://github.com/zoitravel/zmz-calendar#readme",
   "devDependencies": {
-    "@angular/common": "^2.4.8",
-    "@angular/compiler": "^2.4.8",
-    "@angular/compiler-cli": "^2.4.7",
-    "@angular/core": "^2.4.8",
-    "@angular/platform-browser": "^2.4.8",
-    "@angular/platform-browser-dynamic": "^2.4.8",
-    "@angular/router": "^3.4.9",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/router": "^4.0.0",
     "@ngtools/webpack": "^1.2.12",
     "@types/jasmine": "^2.5.43",
     "@types/lodash": "^4.14.51",
@@ -71,19 +71,19 @@
     "typescript": "^2.1.6",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
-    "zone.js": "^0.7.7"
+    "zone.js": "^0.8.5"
   },
   "peerDependencies": {
-    "@angular/common": "^2.4.8",
-    "@angular/compiler": "^2.4.8",
-    "@angular/compiler-cli": "^2.4.7",
-    "@angular/core": "^2.4.8",
-    "@angular/platform-browser": "^2.4.8",
-    "@angular/platform-browser-dynamic": "^2.4.8",
-    "@angular/router": "^3.4.9",
+    "@angular/common": "^4.0.0",
+    "@angular/compiler": "^4.0.0",
+    "@angular/compiler-cli": "^4.0.0",
+    "@angular/core": "^4.0.0",
+    "@angular/platform-browser": "^4.0.0",
+    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/router": "^4.0.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "rxjs": "^5.1.1",
-    "zone.js": "^0.7.7"
+    "zone.js": "^0.8.5"
   }
 }
