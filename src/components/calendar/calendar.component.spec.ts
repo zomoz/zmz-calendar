@@ -131,7 +131,7 @@ describe('calendar component', () => {
 
     it('should can go prev if there is a date available in prev month when strategy is state', () => {
       comp.navigationStrategy = 'state';
-      const date = moment().subtract(1, 'month');
+      const date = moment().subtract(2, 'month');
       state.set(date, STATES.AVAILABLE);
 
       fixture.detectChanges();
@@ -151,7 +151,7 @@ describe('calendar component', () => {
     it('should can go prev if there is a date selected in prev month when strategy is state', () => {
       comp.navigationStrategy = 'state';
       comp.navigationState = STATES.SELECTED;
-      const date = moment().subtract(1, 'month');
+      const date = moment().subtract(2, 'month');
       state.set(date, STATES.SELECTED);
 
       fixture.detectChanges();
