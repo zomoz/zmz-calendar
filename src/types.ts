@@ -22,7 +22,7 @@ export interface DateMap {
   [date: string]: State[];
 }
 
-export type Locale = 'en' | 'es';
+export type Locale = string;
 
 export type NavigationStrategy = 'validRange' | 'state' | boolean;
 
