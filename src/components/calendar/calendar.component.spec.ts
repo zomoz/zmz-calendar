@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By }              from '@angular/platform-browser';
-import { DebugElement }    from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 import * as moment from 'moment';
 
@@ -10,16 +10,23 @@ import { CalendarMonthComponent } from '../month';
 import { CalendarWeekDaysComponent } from '../week-days';
 import { CalendarComponent } from './calendar.component';
 
+function detectChanges(fixture: ComponentFixture<CalendarComponent>) {
+  // HACK: ngOnChanges is run only when the data-binding is updated by Angular and not direct manipulation.
+  // Read more at https://github.com/angular/angular/issues/9866#issuecomment-261631059
+  fixture.componentInstance.ngOnChanges();
+  fixture.detectChanges();
+}
+
 describe('calendar component', () => {
-  let comp:    CalendarComponent;
+  let comp: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
-  let de:      DebugElement;
-  let el:      HTMLElement;
+  let de: DebugElement;
+  let el: HTMLElement;
 
   let state: CalendarState;
   const date = moment();
   let validRange: any = {};
-  let navigationStrategy: any = false; 
+  let navigationStrategy: any = false;
   let config = { validRange, navigationStrategy };
 
   beforeEach(() => {
@@ -87,7 +94,7 @@ describe('calendar component', () => {
 
     it('should not can go next if next month is outside validRange when strategy is validRange', () => {
       comp.navigationStrategy = 'validRange';
-      fixture.detectChanges();
+      detectChanges(fixture);
 
       validRange.from = moment();
       validRange.to = moment().add(2, 'days');
@@ -96,7 +103,7 @@ describe('calendar component', () => {
 
     it('should not can go prev if prev month is outside validRange when strategy is validRange', () => {
       comp.navigationStrategy = 'validRange';
-      fixture.detectChanges();
+      detectChanges(fixture);
 
       validRange.from = moment();
       validRange.to = moment().add(2, 'days');
@@ -105,7 +112,7 @@ describe('calendar component', () => {
 
     it('should can go next/prev if validRange is not specified when strategy is validRange', () => {
       comp.navigationStrategy = 'validRange';
-      fixture.detectChanges();
+      detectChanges(fixture);
 
       delete validRange.from;
       delete validRange.to;
@@ -115,7 +122,7 @@ describe('calendar component', () => {
 
     it('should not can go next/prev if only date available is in current month when strategy is validRange', () => {
       comp.navigationStrategy = 'validRange';
-      fixture.detectChanges();
+      detectChanges(fixture);
 
       validRange.from = moment();
       validRange.to = moment();
@@ -125,7 +132,7 @@ describe('calendar component', () => {
 
     it('should not can go next/prev if only date available is in current month when strategy is state', () => {
       comp.navigationStrategy = 'state';
-      fixture.detectChanges();
+      detectChanges(fixture);
       expect(comp.canGoNext()).toBe(false);
       expect(comp.canGoPrev()).toBe(false);
     });
@@ -135,7 +142,7 @@ describe('calendar component', () => {
       const date = moment().add(1, 'month');
       state.set(date, STATES.AVAILABLE);
 
-      fixture.detectChanges();
+      detectChanges(fixture);
       expect(comp.canGoNext()).toBe(true);
     });
 
@@ -144,7 +151,7 @@ describe('calendar component', () => {
       const date = moment().subtract(2, 'month');
       state.set(date, STATES.AVAILABLE);
 
-      fixture.detectChanges();
+      detectChanges(fixture);
       expect(comp.canGoPrev()).toBe(true);
     });
 
@@ -154,7 +161,7 @@ describe('calendar component', () => {
       const date = moment().add(1, 'month');
       state.set(date, STATES.SELECTED);
 
-      fixture.detectChanges();
+      detectChanges(fixture);
       expect(comp.canGoNext()).toBe(true);
     });
 
@@ -164,7 +171,7 @@ describe('calendar component', () => {
       const date = moment().subtract(2, 'month');
       state.set(date, STATES.SELECTED);
 
-      fixture.detectChanges();
+      detectChanges(fixture);
       expect(comp.canGoPrev()).toBe(true);
     });
 
