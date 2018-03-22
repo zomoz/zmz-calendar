@@ -113,6 +113,16 @@ describe('calendar component', () => {
       expect(comp.canGoPrev()).toBe(true);
     });
 
+    it('should not can go next/prev if only date available is in current month when strategy is validRange', () => {
+      comp.navigationStrategy = 'validRange';
+      fixture.detectChanges();
+
+      validRange.from = moment();
+      validRange.to = moment();
+      expect(comp.canGoNext()).toBe(false);
+      expect(comp.canGoPrev()).toBe(false);
+    });
+
     it('should not can go next/prev if only date available is in current month when strategy is state', () => {
       comp.navigationStrategy = 'state';
       fixture.detectChanges();
