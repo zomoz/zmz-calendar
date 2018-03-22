@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import * as moment from 'moment';
 
@@ -11,9 +11,10 @@ import { firstDateToShow, lastDateToShow } from '../../helpers';
 @Component({
   selector: 'zmz-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: [ './calendar.component.css' ]
+  styleUrls: [ './calendar.component.css' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
   @Input() config: CalendarConfig;
   @Input() state: CalendarState;
   @Input() month: number;
@@ -28,7 +29,7 @@ export class CalendarComponent implements OnInit {
   weekDayClickable: boolean;
   completeMonth: boolean;
 
-  navigationStrategy: string | NavigationStrategy;
+  navigationStrategy: NavigationStrategy;
   navigationState: State;
 
   validRange: { from?: moment.Moment, to?: moment.Moment };
@@ -45,7 +46,7 @@ export class CalendarComponent implements OnInit {
       navigationStrategy = false,
       navigationState = STATES.AVAILABLE,
       validRange = {}
-    } = this.config || {} as CalendarConfig; 
+    } = this.config || {} as CalendarConfig;
 
     // Set locale
     moment.locale(locale);
@@ -81,33 +82,42 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  ngOnChanges() {
+    if (this.navigationStrategy === 'state') {
+      this.validRange = {
+        from: this.state.getFirst(this.navigationState),
+        to: this.state.getLast(this.navigationState)
+      }
+    }
+  }
+
   canGoNext() {
     if (!this.navigationStrategy) { return true; }
 
-    switch (this.navigationStrategy ) {
+    switch (this.navigationStrategy) {
       case 'validRange':
-        return this.validRange && this.validRange.to ? 
-               lastDateToShow(this.month, this.year).isBefore(this.validRange.to) : true; 
-
       case 'state':
-        return lastDateToShow(this.month, this.year).isBefore(this.state.getLast(this.navigationState));
+        return this.validRange && this.validRange.to
+          ? lastDateToShow(this.month, this.year).isBefore(this.validRange.to)
+          : true;
 
-      default: return true;
+      default:
+        return true;
     }
   }
 
   canGoPrev() {
     if (!this.navigationStrategy) { return true; }
 
-    switch (this.navigationStrategy ) {
+    switch (this.navigationStrategy) {
       case 'validRange':
-        return this.validRange && this.validRange.from ? 
-               firstDateToShow(this.month, this.year).isAfter(this.validRange.from) : true; 
-
       case 'state':
-        return firstDateToShow(this.month, this.year).isAfter(this.state.getFirst(this.navigationState));
+        return this.validRange && this.validRange.from
+          ? firstDateToShow(this.month, this.year).isAfter(this.validRange.from)
+          : true;
 
-      default: return true;
+      default:
+        return true;
     }
   }
 
@@ -137,5 +147,4 @@ export class CalendarComponent implements OnInit {
     const monthName = moment.months()[this.month - 1];
     return `${monthName.charAt(0).toUpperCase()}${monthName.slice(1)}`;
   }
-
 }
