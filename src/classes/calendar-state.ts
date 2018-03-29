@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 import { isArray, keys, sortBy } from 'lodash';
 
 import { dateHash } from '../helpers';
