@@ -46,7 +46,7 @@ This component holds all the calendar logic. It's intend to be a dumb component 
 #### Inputs
 
 1. config: Calendar's general configuration. It's a javascript object containing the following:
-    1. locale (_optional_): The calendar locale to use. It uses [date-fns](https://date-fns.org/v1.29.0/docs/I18n#supported-languages) locale and defaults to `es`
+    1. locale (_optional_): The calendar locale to use. It uses [date-fns](https://date-fns.org/v1.29.0/docs/I18n#supported-languages) locales but only supports `en` and `es`. Defaults to `es`
     2. weekDayClickable (_optional_): True if the week days are clickable and emit the day number on click. Defaults to `false`
     3. completeMonths (_optional_): True if we want the calendar to show days of othe months in the current month. Defaults to `false`
     4. validRange (_optional_): Object containing `from` and `to` setting all dates outside the range as disabled. Is any boundary is missing, 

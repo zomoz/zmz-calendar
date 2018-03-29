@@ -37,7 +37,6 @@ export function firstDateToShow(month: number, year: number, locale: CalendarLoc
  */
 export function lastDateToShow(month: number, year: number, locale: CalendarLocale): Date {
   const endMonth = startOfDay(endOfMonth(new Date(year, month - 1)));
-  const dayOfWeek = getDay(endMonth);
   return startOfDay(locale === 'en' ? endOfWeek(endMonth) : endOfISOWeek(endMonth));
 }
 
