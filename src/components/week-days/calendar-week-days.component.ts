@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
 import { Theme } from '../../types';
+import { startOfWeek, endOfWeek, eachDay, format } from 'date-fns';
 
 @Component({
   selector: 'zmz-calendar-week-days',
@@ -14,18 +14,17 @@ export class CalendarWeekDaysComponent implements OnInit {
 
   weekDays: string[];
   ngOnInit() {
+    const today = new Date();
+    const weekArray = eachDay(startOfWeek(today), endOfWeek(today))
     switch (this.theme){
-      case 'show':
-        this.weekDays = moment.weekdaysShort(true).map((day: string) => 
-          `${day.charAt(0).toUpperCase()}`
-        );
+      case 'show': {
+        this.weekDays = weekArray.map(d => format(d, 'dd'));
         break;
+      }
       
       /** Default case is theme === 'form' */
       default:
-        this.weekDays = moment.weekdaysShort(true).map((day: string) => 
-          `${day.charAt(0).toUpperCase()}${day.slice(1).slice(0, -1)}`
-        );
+        this.weekDays = weekArray.map(d => format(d, 'ddd'));
         break;
     }
   }

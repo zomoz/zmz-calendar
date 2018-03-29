@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 export type State = 'selected'  // Selected date
                     | 'available'  // Available date
                     | 'unavailable' // Unavailable date (visibly unavailable but might accept actions on it)
