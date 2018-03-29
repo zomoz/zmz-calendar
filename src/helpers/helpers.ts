@@ -6,10 +6,14 @@ import {
   getDay,
   addDays, subDays,
   isBefore,
-  startOfMonth
+  startOfMonth,
+  startOfWeek,
+  startOfISOWeek,
+  endOfWeek,
+  endOfISOWeek
 } from 'date-fns';
 
-import { State } from '../types';
+import { State, CalendarLocale } from '../types';
 
 const firstDayOfWeek = 0;
 const lastDayOfWeek = 6;
@@ -20,16 +24,9 @@ const lastDayOfWeek = 6;
  * @param year 
  * @return date as Date
  */
-export function firstDateToShow(month: number, year: number) : Date {
+export function firstDateToShow(month: number, year: number, locale: CalendarLocale) : Date {
   const startMonth = startOfDay(startOfMonth(new Date(year, month - 1)));
-  const dayOfWeek = getDay(startMonth);
-
-    if (dayOfWeek > firstDayOfWeek) {
-      const diff = dayOfWeek - firstDayOfWeek;
-      return subDays(startMonth, diff);
-    } else {
-      return startMonth;
-    }
+  return locale === 'en' ? startOfWeek(startMonth) : startOfISOWeek(startMonth)
 }
 
 /**
@@ -38,16 +35,10 @@ export function firstDateToShow(month: number, year: number) : Date {
  * @param year
  * @return date as Date
  */
-export function lastDateToShow(month: number, year: number): Date {
+export function lastDateToShow(month: number, year: number, locale: CalendarLocale): Date {
   const endMonth = startOfDay(endOfMonth(new Date(year, month - 1)));
   const dayOfWeek = getDay(endMonth);
-  if (dayOfWeek < lastDayOfWeek) {
-
-    const diff = lastDayOfWeek - dayOfWeek;
-    return addDays(endMonth, diff);
-  } else {
-    return endMonth;
-  }
+  return startOfDay(locale === 'en' ? endOfWeek(endMonth) : endOfISOWeek(endMonth));
 }
 
 /**
@@ -56,9 +47,9 @@ export function lastDateToShow(month: number, year: number): Date {
  * @param year
  * @return weeks as Date[][]
  */
-export function weeksToShow(month: number, year: number): Date[][] {
-  let start = firstDateToShow(month, year);
-  const end = lastDateToShow(month, year);
+export function weeksToShow(month: number, year: number, locale: CalendarLocale): Date[][] {
+  let start = firstDateToShow(month, year, locale);
+  const end = lastDateToShow(month, year, locale);
   const weekDays = range(firstDayOfWeek, lastDayOfWeek + 1);
 
   let weeks = [];
