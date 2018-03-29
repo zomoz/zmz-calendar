@@ -46,7 +46,7 @@ This component holds all the calendar logic. It's intend to be a dumb component 
 #### Inputs
 
 1. config: Calendar's general configuration. It's a javascript object containing the following:
-    1. locale (_optional_): The calendar locale to use. It uses [moment](https://momentjs.com/docs/) locale and defaults to `es`
+    1. locale (_optional_): The calendar locale to use. It uses [date-fns](https://date-fns.org/v1.29.0/docs/I18n#supported-languages) locale and defaults to `es`
     2. weekDayClickable (_optional_): True if the week days are clickable and emit the day number on click. Defaults to `false`
     3. completeMonths (_optional_): True if we want the calendar to show days of othe months in the current month. Defaults to `false`
     4. validRange (_optional_): Object containing `from` and `to` setting all dates outside the range as disabled. Is any boundary is missing, 
@@ -87,15 +87,15 @@ You can use them importing `STATES` from the library: `import { STATES } from 'z
 
 #### CalendarState API
 
-1. constructor(dates: moment.Moment[], defaultState: State = STATES.NO_STATE): Receives an array of dates with a initial state which defaults to none
-2. set(date: moment.Moment, state: State): Sets a state to a date
-3. toggle(date: moment.Moment, state: State): Toggles a state in a date (if it was present it's removed)
-4. has(date: moment.Moment, state: State): True if the date has the specified state
-5. get(date: moment.Moment): Gets an array of states from a date
-6. remove(date: moment.Moment, state: State): Removes the state from date. If it doesn't exist, it's noop
-7. getAll(state: State): Returns an array of moment from those dates matching the state state
-8. getFirst(state: State): Returns the first date matching the state state as a moment
-9. getLast(state: State): Returns the last date matching the state state as a moment
+1. constructor(dates: Date[], defaultState: State = STATES.NO_STATE): Receives an array of dates with a initial state which defaults to none
+2. set(date: Date, state: State): Sets a state to a date
+3. toggle(date: Date, state: State): Toggles a state in a date (if it was present it's removed)
+4. has(date: Date, state: State): True if the date has the specified state
+5. get(date: Date): Gets an array of states from a date
+6. remove(date: Date, state: State): Removes the state from date. If it doesn't exist, it's noop
+7. getAll(state: State): Returns an array of Date from those dates matching the state state
+8. getFirst(state: State): Returns the first date matching the state state as a Date
+9. getLast(state: State): Returns the last date matching the state state as a Date
 
 You should instantiate a `CalendarState` and use its api to modify it
 
@@ -103,11 +103,11 @@ You should instantiate a `CalendarState` and use its api to modify it
 ### Example of usage
 
 `app.component.ts`
-```
+```ts
 import { Component } from '@angular/core';
 import { CalendarState, State, STATES } from 'zmz-calendar';
 
-import * as moment from 'moment';
+import { format, addDays, addYears, isBefore } from 'date-fns';
 
 @Component({
   selector: 'app-root',
@@ -124,25 +124,28 @@ export class AppComponent {
     this.state = new CalendarState(dates, STATES.AVAILABLE);
   }
 
-  onDateSelected(date: moment.Moment) {
+  onDateSelected(date: Date) {
     const isDisabled = this.state.has(date, STATES.DISABLED);
     if (!isDisabled) {
       const av = this.state.toggle(date, STATES.UNAVAILABLE);
       if (av) {
-        this.date = date.format();
+        this.date = format(date);
       }
     }
   }
 
   dates() {
-    const today = moment();
-    const aYear = moment().add(1, 'year');
+    const today = new Date();
+    toda.setHours(0, 0, 0, 0);
+
+    const aYear = addYears(today, 1);
 
     let dates = [];
 
-    while(today.isBefore(aYear)) {
-      dates.push(today.clone());
-      today.add(1, 'day');
+    while(isBefore(today, aYear)) {
+
+      dates.push(new Date(today.getTime());
+      today = addDays(today, 1);
     }
 
     return dates;
@@ -152,7 +155,7 @@ export class AppComponent {
 ```
 
 `app.component.html`
-```
+```html
 <div style="max-width: 500px; width: 100%">
   <zmz-calendar [state]="state" [config]="config" (dateSelected)="onDateSelected($event)">
     <div class="prev btn">
