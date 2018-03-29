@@ -65,6 +65,6 @@ export function weeksToShow(month: number, year: number): moment.Moment[][] {
   return weeks;
 }
 
-export function dateHash(date: moment.Moment) {
-    return date.format('YYYY-MM-DD');
+export function dateHash(date: Date) {
+  return format(date, 'YYYY-MM-DD');
 }
