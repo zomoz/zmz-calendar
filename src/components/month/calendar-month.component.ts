@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
 
 import { State } from '../../types';
 import { weeksToShow } from '../../helpers';
+import { getMonth, getDate } from 'date-fns';
 
 @Component({
   selector: 'zmz-calendar-month',
@@ -12,14 +12,14 @@ import { weeksToShow } from '../../helpers';
 export class CalendarMonthComponent implements OnInit {
   @Input() month: number;
   @Input() year: number;
-  @Input() stateFn: (date: moment.Moment) => State[];
+  @Input() stateFn: (date: Date) => State[];
   @Input() completeMonth: boolean;
 
   @Output() monthChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() yearChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() dateSelected: EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
+  @Output() dateSelected: EventEmitter<Date> = new EventEmitter<Date>();
 
-  weeks: moment.Moment[][] = [];
+  weeks: Date[][] = [];
 
   ngOnInit() { this.buildMonth(); }
 
@@ -50,17 +50,21 @@ export class CalendarMonthComponent implements OnInit {
     this.buildMonth();
   }
 
-  inMonth(date: moment.Moment) {
-    return date.month() === this.month - 1;
+  inMonth(date: Date) {
+    return getMonth(date) === this.month - 1;
   }
 
-  selectDate(date: moment.Moment) {
+  getDateText(date: Date) {
+    return !this.completeMonth && !this.inMonth(date) ? '' : getDate(date);
+  }
+
+  selectDate(date: Date) {
     if (this.inMonth(date) || (!this.inMonth(date) && this.completeMonth)) {
       this.dateSelected.emit(date);
     }
   }
 
-  dateState(date: moment.Moment) {
+  dateState(date: Date) {
     let states = this.stateFn ? this.stateFn(date) : [''];
     if (!this.completeMonth && !this.inMonth(date)) {
       // Remove all states and keep other-month only
@@ -73,5 +77,5 @@ export class CalendarMonthComponent implements OnInit {
     this.weeks = weeksToShow(this.month, this.year);
   }
 
-  trackDate(index: number, date: moment.Moment) { return date.toISOString(); }
+  trackDate(index: number, date: Date) { return date.getTime(); }
 }
