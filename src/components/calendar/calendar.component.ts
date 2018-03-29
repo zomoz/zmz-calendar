@@ -1,10 +1,11 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { CalendarMonthComponent } from '../month/calendar-month.component';
-import { CalendarConfig, State, NavigationStrategy, Theme } from '../../types';
+import { CalendarConfig, State, NavigationStrategy, Theme, CalendarLocale } from '../../types';
 import { CalendarState, STATES } from '../../classes';
 import { firstDateToShow, lastDateToShow } from '../../helpers';
 import { isAfter, isBefore, format, getMonth, getYear } from 'date-fns';
+import { LOCALES } from '../../locales';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   validRange: { from?: Date, to?: Date };
 
   theme: Theme;
+  locale: CalendarLocale;
 
   ngOnInit() {
     const {
@@ -48,6 +50,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     } = this.config || {} as CalendarConfig;
 
     // Set locale
+    this.locale = locale;
 
     this.theme = theme;
 
@@ -144,6 +147,6 @@ export class CalendarComponent implements OnInit, OnChanges {
   get monthName() {
     const date = new Date();
     date.setMonth(this.month - 1);
-    return format(date, 'MMMM');
+    return format(date, 'MMMM', { locale: LOCALES[this.locale]});
   }
 }

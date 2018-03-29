@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Theme } from '../../types';
+import { LOCALES } from '../../locales';
+import { Theme, CalendarLocale } from '../../types';
 import { startOfWeek, endOfWeek, eachDay, format } from 'date-fns';
 
 @Component({
@@ -10,6 +11,7 @@ import { startOfWeek, endOfWeek, eachDay, format } from 'date-fns';
 export class CalendarWeekDaysComponent implements OnInit {
   @Input() clickable: boolean;
   @Input() theme: Theme = 'form';
+  @Input() locale: CalendarLocale;
   @Output() weekday: EventEmitter<number> = new EventEmitter<number>();
 
   weekDays: string[];
@@ -18,13 +20,13 @@ export class CalendarWeekDaysComponent implements OnInit {
     const weekArray = eachDay(startOfWeek(today), endOfWeek(today))
     switch (this.theme){
       case 'show': {
-        this.weekDays = weekArray.map(d => format(d, 'dd'));
+        this.weekDays = weekArray.map(d => format(d, 'dd', { locale: LOCALES[this.locale]}));
         break;
       }
       
       /** Default case is theme === 'form' */
       default:
-        this.weekDays = weekArray.map(d => format(d, 'ddd'));
+        this.weekDays = weekArray.map(d => format(d, 'ddd', { locale: LOCALES[this.locale]}));
         break;
     }
   }

@@ -20,7 +20,7 @@ export interface DateMap {
   [date: string]: State[];
 }
 
-export type Locale = string;
+export type CalendarLocale = 'es' | 'en';
 
 export type NavigationStrategy = 'validRange' | 'state' | boolean;
 
@@ -28,7 +28,7 @@ export type Theme = 'form' | 'show';
 
 export interface CalendarConfig {
   theme?: Theme;
-  locale?: Locale;
+  locale?: CalendarLocale;
   weekDayClickable?: boolean;
   completeMonths?: boolean;
   validRange?: {
