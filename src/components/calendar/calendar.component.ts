@@ -154,6 +154,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   get monthName() {
     const date = new Date();
     date.setMonth(this.month - 1);
-    return format(date, 'MMMM', { locale: LOCALES[this.locale]});
+    const mn = format(date, 'MMMM', { locale: LOCALES[this.locale]});
+    return `${mn.charAt(0).toUpperCase()}${mn.slice(1)}`;
   }
 }

@@ -23,13 +23,19 @@ export class CalendarWeekDaysComponent implements OnInit {
     )
     switch (this.theme){
       case 'show': {
-        this.weekDays = weekArray.map(d => format(d, 'dd', { locale: LOCALES[this.locale]}));
+        this.weekDays = weekArray.map(d => {
+          const wd = format(d, 'dd', { locale: LOCALES[this.locale]});
+          return `${wd.charAt(0).toUpperCase()}${wd.slice(1)}`;
+        });
         break;
       }
       
       /** Default case is theme === 'form' */
       default:
-        this.weekDays = weekArray.map(d => format(d, 'ddd', { locale: LOCALES[this.locale]}));
+        this.weekDays = weekArray.map(d => {
+          const wd = format(d, 'ddd', { locale: LOCALES[this.locale]});
+          return `${wd.charAt(0).toUpperCase()}${wd.slice(1)}`;
+        });
         break;
     }
   }
