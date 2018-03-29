@@ -6,6 +6,7 @@ import { CalendarMonthComponent } from '../month/calendar-month.component';
 import { CalendarConfig, State, NavigationStrategy, Theme } from '../../types';
 import { CalendarState, STATES } from '../../classes';
 import { firstDateToShow, lastDateToShow } from '../../helpers';
+import { isAfter, isBefore } from 'date-fns';
 
 
 @Component({
@@ -25,14 +26,14 @@ export class CalendarComponent implements OnInit, OnChanges {
   @Output() monthChange: EventEmitter<{year: number, month: number}> = new EventEmitter<{year: number, month: number}>();
   @ViewChild(CalendarMonthComponent) monthCmp: CalendarMonthComponent;
 
-  stateFn: (d: moment.Moment) => State[];
+  stateFn: (d: Date) => State[];
   weekDayClickable: boolean;
   completeMonth: boolean;
 
   navigationStrategy: NavigationStrategy;
   navigationState: State;
 
-  validRange: { from?: moment.Moment, to?: moment.Moment };
+  validRange: { from?: Date, to?: Date };
 
   theme: Theme;
 
@@ -70,10 +71,10 @@ export class CalendarComponent implements OnInit, OnChanges {
     this.monthChange.emit({ year: this.year, month: this.month });
 
     if (this.state) {
-      this.stateFn = (date: moment.Moment) => {
-        if (this.validRange && this.validRange.from && this.validRange.from.isAfter(date)) {
+      this.stateFn = (date: Date) => {
+        if (this.validRange && this.validRange.from && isAfter(this.validRange.from, date)) {
           return [STATES.DISABLED];
-        } else if (this.validRange && this.validRange.to && this.validRange.to.isBefore(date)) {
+        } else if (this.validRange && this.validRange.to && isBefore(this.validRange.to, date)) {
           return [STATES.DISABLED];
         } else {
           return this.state.get(date);
@@ -98,7 +99,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       case 'validRange':
       case 'state':
         return this.validRange && this.validRange.to
-          ? lastDateToShow(this.month, this.year).isBefore(this.validRange.to)
+          ? isBefore(lastDateToShow(this.month, this.year), this.validRange.to)
           : true;
 
       default:

@@ -22,9 +22,10 @@ describe('helpers', () => {
   it('should return Jan 29 2017 when getting first day to show in february 2017', () => {
     const month = 2;
     const year = 2017;
-    const expectedDate = moment([2017, 2, 4]).format('YYYY-MM-DD');
+    const expectedDate = new Date(2017, 2, 4);
+    expectedDate.setHours(0, 0, 0, 0);
 
-    expect(lastDateToShow(month, year).format('YYYY-MM-DD')).toEqual(expectedDate);
+    expect(lastDateToShow(month, year)).toEqual(expectedDate);
   });
 
   it('should return the month February 2017', () => {

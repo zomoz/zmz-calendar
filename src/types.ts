@@ -34,8 +34,8 @@ export interface CalendarConfig {
   weekDayClickable?: boolean;
   completeMonths?: boolean;
   validRange?: {
-    from?: moment.Moment,
-    to?: moment.Moment
+    from?: Date,
+    to?: Date
   };
   navigationStrategy?: NavigationStrategy;
   navigationState?: State;

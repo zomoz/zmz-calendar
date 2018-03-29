@@ -1,6 +1,8 @@
 import * as moment from 'moment';
 import { range } from 'lodash';
 
+import { format, endOfMonth, startOfDay, getDay, addDays } from 'date-fns';
+
 import { State } from '../types';
 
 const firstDayOfWeek = 0;
@@ -29,15 +31,16 @@ export function firstDateToShow(month: number, year: number) : moment.Moment {
  * @param year
  * @return date as Moment
  */
-export function lastDateToShow(month: number, year: number): moment.Moment {
-    const endMonth = moment([year, month - 1]).endOf('month').startOf('day');
-    if (endMonth.weekday() < lastDayOfWeek) {
+export function lastDateToShow(month: number, year: number): Date {
+  const endMonth = startOfDay(endOfMonth(new Date(year, month - 1)));
+  const dayOfWeek = getDay(endMonth);
+  if (dayOfWeek < lastDayOfWeek) {
 
-      const diff = lastDayOfWeek - endMonth.weekday();
-      return endMonth.add(diff, 'days')
-    } else {
-      return endMonth;
-    }
+    const diff = lastDayOfWeek - dayOfWeek;
+    return addDays(endMonth, diff);
+  } else {
+    return endMonth;
+  }
 }
 
 /**
