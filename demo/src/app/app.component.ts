@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { CalendarState, State, STATES } from 'zmz-calendar';
 
-import * as moment from 'moment';
+import { subDays, addYears, isBefore, addDays, endOfMonth, startOfDay, startOfMonth, isAfter, getDay } from 'date-fns';
+
+const today = new Date();
+today.setHours(0, 0, 0 , 0);
 
 @Component({
   selector: 'app-root',
@@ -17,8 +20,8 @@ export class AppComponent {
     weekDayClickable: false,
     completeMonths: true,
     validRange: {
-      from: moment().subtract(1, 'day'),
-      to: moment().add(1, 'year')
+      from: subDays(today, 1),
+      to: addYears(today, 1)
     },
     navigationStrategy: 'validRange'
   };
@@ -29,10 +32,9 @@ export class AppComponent {
   constructor() {
     const dates = this.dates();
     this.state = new CalendarState(dates, STATES.SELECTABLE);
-    moment.locale('es');
   }
 
-  onDateSelected(date: moment.Moment) {
+  onDateSelected(date: Date) {
     const isDisabled = this.state.has(date, STATES.DISABLED);
     if (!isDisabled) {
       const isSelectable = this.state.has(date, STATES.SELECTABLE);
@@ -49,8 +51,8 @@ export class AppComponent {
   }
 
   onWeekDaySelected(day: number) {
-    const days = this.getMonth(this.month, this.year).filter((date: moment.Moment) => date.weekday() === day);
-    const isUnAvailable = days.findIndex((day) => this.state.has(day, STATES.UNAVAILABLE)) !== -1;
+    const days = this.getMonth(this.month, this.year).filter(date => getDay(date) === day);
+    const isUnAvailable = days.findIndex(d => this.state.has(d, STATES.UNAVAILABLE)) !== -1;
 
     if (isUnAvailable) {
       this.remove(days, STATES.UNAVAILABLE);
@@ -62,14 +64,14 @@ export class AppComponent {
   }
 
   dates() {
-    const today = moment();
-    const aYear = moment().add(1, 'year');
+    let start = new Date(today.getTime());
+    const aYear = addYears(start, 1);
 
     const dates = [];
 
-    while(today.isBefore(aYear)) {
-      dates.push(today.clone());
-      today.add(1, 'day');
+    while (isBefore(start, aYear)) {
+      dates.push(new Date(start.getTime()));
+      start = addDays(start, 1);
     }
 
     return dates;
@@ -94,7 +96,7 @@ export class AppComponent {
     }
   }
 
-  set(dates: moment.Moment[], state: State) {
+  set(dates: Date[], state: State) {
 
     dates.forEach((date) => {
       if (!this.state.has(date, STATES.DISABLED)) {
@@ -103,7 +105,7 @@ export class AppComponent {
     });
   }
 
-  remove(dates: moment.Moment[], state: State) {
+  remove(dates: Date[], state: State) {
 
     dates.forEach((date) => {
       if (!this.state.has(date, STATES.DISABLED)) {
@@ -113,15 +115,15 @@ export class AppComponent {
   }
 
   private getMonth(month: number, year: number) {
-    const startMonth = moment([year, month - 1]);
-    const endMonth = moment([year, month - 1]).endOf('month').startOf('day');
+    let startMonth = startOfDay(startOfMonth(new Date(year, month - 1)));
+    const endMonth = startOfDay(endOfMonth(new Date(year, month - 1)));
 
-    const result = [];
-    while (!startMonth.isAfter(endMonth)) {
-      const curr = startMonth.clone();
+    const result: Date[] = [];
+    while (!isAfter(startMonth, endMonth)) {
+      const curr = new Date(startMonth.getTime());
       result.push(curr);
 
-      startMonth.add(1, 'day');
+      startMonth = addDays(startMonth, 1);
     }
 
     return result;
