@@ -112,10 +112,17 @@ export class CalendarComponent implements OnInit, OnChanges {
 
     switch (this.navigationStrategy) {
       case 'validRange':
-      case 'state':
+      case 'state': {
+        const firstDate = firstDateToShow(this.month, this.year, this.locale);
         return this.validRange && this.validRange.from
-          ? isAfter(firstDateToShow(this.month, this.year, this.locale), this.validRange.from)
+          /**
+           * Can go prev if:
+           * 1. The firstDate to show in this month is after the from boundary
+           * 2. The month of the firstDate to show is the same as the month of the from boundary
+           */
+          ? isAfter(firstDate, this.validRange.from) || getMonth(firstDate) === getMonth(this.validRange.from)
           : true;
+      }
 
       default:
         return true;
