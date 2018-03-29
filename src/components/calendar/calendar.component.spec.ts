@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import * as moment from 'moment';
-
 import { STATES, CalendarState } from '../../classes';
 import { CalendarDayComponent } from '../day';
 import { CalendarMonthComponent } from '../month';
@@ -58,14 +56,14 @@ describe('calendar component', () => {
     });
 
     it('set the stateFn using validRange from and to', () => {
-      validRange.from = moment().add(1, 'day');
-      validRange.to = moment().add(2, 'day');
+      validRange.from = addDays(date, 1);
+      validRange.to = addDays(date, 2);
       const myDate = date;
       expect(comp.stateFn(myDate)).toEqual([STATES.DISABLED]);
     });
 
     it('set the stateFn using validRange from without to', () => {
-      validRange.from = moment().add(1, 'day');
+      validRange.from = addDays(date, 1);
       delete validRange.to;
       const myDate1 = date;
       const myDate2 = addYears(date, 1);
@@ -77,7 +75,7 @@ describe('calendar component', () => {
 
     it('set the stateFn using validRange to without from', () => {
       delete validRange.from;
-      validRange.to = moment().add(2, 'day');
+      validRange.to = addDays(date, 2);
 
       const myDate1 = date;
       const myDate2 = addDays(date, 3);
@@ -98,8 +96,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment().add(2, 'days');
+      validRange.from = date
+      validRange.to = addDays(date, 2);
       expect(comp.canGoNext()).toBe(false);
     });
 
@@ -107,8 +105,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment().add(2, 'days');
+      validRange.from = date
+      validRange.to = addDays(date, 2);
       expect(comp.canGoPrev()).toBe(false);
     });
 
@@ -126,8 +124,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment();
+      validRange.from = date;
+      validRange.to = date;
       expect(comp.canGoNext()).toBe(false);
       expect(comp.canGoPrev()).toBe(false);
     });

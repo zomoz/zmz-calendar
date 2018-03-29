@@ -1,12 +1,10 @@
 import { Component, ViewChild, Input, Output, EventEmitter, OnInit, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
-import * as moment from 'moment';
-
 import { CalendarMonthComponent } from '../month/calendar-month.component';
 import { CalendarConfig, State, NavigationStrategy, Theme } from '../../types';
 import { CalendarState, STATES } from '../../classes';
 import { firstDateToShow, lastDateToShow } from '../../helpers';
-import { isAfter, isBefore } from 'date-fns';
+import { isAfter, isBefore, format, getMonth, getYear } from 'date-fns';
 
 
 @Component({
@@ -21,7 +19,7 @@ export class CalendarComponent implements OnInit, OnChanges {
   @Input() month: number;
   @Input() year: number;
 
-  @Output() dateSelected: EventEmitter<moment.Moment> = new EventEmitter<moment.Moment>();
+  @Output() dateSelected: EventEmitter<Date> = new EventEmitter<Date>();
   @Output() weekDaySelected: EventEmitter<number> = new EventEmitter<number>();
   @Output() monthChange: EventEmitter<{year: number, month: number}> = new EventEmitter<{year: number, month: number}>();
   @ViewChild(CalendarMonthComponent) monthCmp: CalendarMonthComponent;
@@ -50,7 +48,6 @@ export class CalendarComponent implements OnInit, OnChanges {
     } = this.config || {} as CalendarConfig;
 
     // Set locale
-    moment.locale(locale);
 
     this.theme = theme;
 
@@ -63,9 +60,9 @@ export class CalendarComponent implements OnInit, OnChanges {
     this.validRange = validRange;
 
     // Month and year defaults to currents
-    const today = moment();
-    if (!this.month) { this.month = today.month() + 1; }
-    if (!this.year) { this.year = today.year(); }
+    const today = new Date();
+    if (!this.month) { this.month = getMonth(today) + 1; }
+    if (!this.year) { this.year = getYear(today); }
 
     // First emission when calendar is initialized
     this.monthChange.emit({ year: this.year, month: this.month });
@@ -114,7 +111,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       case 'validRange':
       case 'state':
         return this.validRange && this.validRange.from
-          ? firstDateToShow(this.month, this.year).isAfter(this.validRange.from)
+          ? isAfter(firstDateToShow(this.month, this.year), this.validRange.from)
           : true;
 
       default:
@@ -136,7 +133,7 @@ export class CalendarComponent implements OnInit, OnChanges {
     }
   }
 
-  onDateSelected(date: moment.Moment) {
+  onDateSelected(date: Date) {
     this.dateSelected.emit(date);
   }
 
@@ -145,7 +142,8 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   get monthName() {
-    const monthName = moment.months()[this.month - 1];
-    return `${monthName.charAt(0).toUpperCase()}${monthName.slice(1)}`;
+    const date = new Date();
+    date.setMonth(this.month - 1);
+    return format(date, 'MMMM');
   }
 }
