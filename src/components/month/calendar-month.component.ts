@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { State } from '../../types';
+import { State, CalendarLocale } from '../../types';
 import { weeksToShow } from '../../helpers';
 import { getMonth, getDate } from 'date-fns';
 
@@ -14,6 +14,7 @@ export class CalendarMonthComponent implements OnInit {
   @Input() year: number;
   @Input() stateFn: (date: Date) => State[];
   @Input() completeMonth: boolean;
+  @Input() locale: CalendarLocale;
 
   @Output() monthChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() yearChange: EventEmitter<number> = new EventEmitter<number>();
@@ -74,7 +75,7 @@ export class CalendarMonthComponent implements OnInit {
   }
 
   buildMonth() {
-    this.weeks = weeksToShow(this.month, this.year);
+    this.weeks = weeksToShow(this.month, this.year, this.locale);
   }
 
   trackDate(index: number, date: Date) { return date.getTime(); }

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LOCALES } from '../../locales';
 import { Theme, CalendarLocale } from '../../types';
-import { startOfWeek, endOfWeek, eachDay, format } from 'date-fns';
+import { startOfWeek, endOfWeek, eachDay, format, startOfISOWeek, endOfISOWeek } from 'date-fns';
 
 @Component({
   selector: 'zmz-calendar-week-days',
@@ -17,7 +17,10 @@ export class CalendarWeekDaysComponent implements OnInit {
   weekDays: string[];
   ngOnInit() {
     const today = new Date();
-    const weekArray = eachDay(startOfWeek(today), endOfWeek(today))
+    const weekArray = eachDay(
+      this.locale === 'en' ? startOfWeek(today) : startOfISOWeek(today),
+      this.locale === 'en' ? endOfWeek(today) : endOfISOWeek(today)
+    )
     switch (this.theme){
       case 'show': {
         this.weekDays = weekArray.map(d => format(d, 'dd', { locale: LOCALES[this.locale]}));

@@ -99,7 +99,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       case 'validRange':
       case 'state':
         return this.validRange && this.validRange.to
-          ? isBefore(lastDateToShow(this.month, this.year), this.validRange.to)
+          ? isBefore(lastDateToShow(this.month, this.year, this.locale), this.validRange.to)
           : true;
 
       default:
@@ -114,7 +114,7 @@ export class CalendarComponent implements OnInit, OnChanges {
       case 'validRange':
       case 'state':
         return this.validRange && this.validRange.from
-          ? isAfter(firstDateToShow(this.month, this.year), this.validRange.from)
+          ? isAfter(firstDateToShow(this.month, this.year, this.locale), this.validRange.from)
           : true;
 
       default:
