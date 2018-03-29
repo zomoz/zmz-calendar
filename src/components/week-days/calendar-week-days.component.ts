@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
-import { Theme } from '../../types';
+import { LOCALES } from '../../locales';
+import { Theme, CalendarLocale } from '../../types';
+import { startOfWeek, endOfWeek, eachDay, format, startOfISOWeek, endOfISOWeek } from 'date-fns';
 
 @Component({
   selector: 'zmz-calendar-week-days',
@@ -10,22 +11,31 @@ import { Theme } from '../../types';
 export class CalendarWeekDaysComponent implements OnInit {
   @Input() clickable: boolean;
   @Input() theme: Theme = 'form';
+  @Input() locale: CalendarLocale;
   @Output() weekday: EventEmitter<number> = new EventEmitter<number>();
 
   weekDays: string[];
   ngOnInit() {
+    const today = new Date();
+    const weekArray = eachDay(
+      this.locale === 'en' ? startOfWeek(today) : startOfISOWeek(today),
+      this.locale === 'en' ? endOfWeek(today) : endOfISOWeek(today)
+    )
     switch (this.theme){
-      case 'show':
-        this.weekDays = moment.weekdaysShort(true).map((day: string) => 
-          `${day.charAt(0).toUpperCase()}`
-        );
+      case 'show': {
+        this.weekDays = weekArray.map(d => {
+          const wd = format(d, 'dd', { locale: LOCALES[this.locale]});
+          return `${wd.charAt(0).toUpperCase()}${wd.slice(1)}`;
+        });
         break;
+      }
       
       /** Default case is theme === 'form' */
       default:
-        this.weekDays = moment.weekdaysShort(true).map((day: string) => 
-          `${day.charAt(0).toUpperCase()}${day.slice(1).slice(0, -1)}`
-        );
+        this.weekDays = weekArray.map(d => {
+          const wd = format(d, 'ddd', { locale: LOCALES[this.locale]});
+          return `${wd.charAt(0).toUpperCase()}${wd.slice(1)}`;
+        });
         break;
     }
   }

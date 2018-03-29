@@ -4,6 +4,6 @@
       *ngFor="let date of week; trackBy:trackDate"
       [ngClass]="dateState(date)"
       (click)="selectDate(date)"
-    > {{ !completeMonth && !inMonth(date) ? '' : date.date() }} </zmz-calendar-day>
+    > {{ getDateText(date) }} </zmz-calendar-day>
   </div>
 </div>

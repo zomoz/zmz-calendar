@@ -2,13 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import * as moment from 'moment';
-
 import { STATES, CalendarState } from '../../classes';
 import { CalendarDayComponent } from '../day';
 import { CalendarMonthComponent } from '../month';
 import { CalendarWeekDaysComponent } from '../week-days';
 import { CalendarComponent } from './calendar.component';
+import { addYears, addDays, addMonths, subMonths } from 'date-fns';
 
 function detectChanges(fixture: ComponentFixture<CalendarComponent>) {
   // HACK: ngOnChanges is run only when the data-binding is updated by Angular and not direct manipulation.
@@ -24,7 +23,7 @@ describe('calendar component', () => {
   let el: HTMLElement;
 
   let state: CalendarState;
-  const date = moment();
+  const date = new Date();
   let validRange: any = {};
   let navigationStrategy: any = false;
   let config = { validRange, navigationStrategy };
@@ -39,6 +38,7 @@ describe('calendar component', () => {
       ]
     });
 
+    date.setHours(0, 0, 0, 0);
     fixture = TestBed.createComponent(CalendarComponent);
 
     state = new CalendarState([date], STATES.AVAILABLE);
@@ -56,17 +56,17 @@ describe('calendar component', () => {
     });
 
     it('set the stateFn using validRange from and to', () => {
-      validRange.from = moment().add(1, 'day');
-      validRange.to = moment().add(2, 'day');
-      const myDate = moment();
+      validRange.from = addDays(date, 1);
+      validRange.to = addDays(date, 2);
+      const myDate = date;
       expect(comp.stateFn(myDate)).toEqual([STATES.DISABLED]);
     });
 
     it('set the stateFn using validRange from without to', () => {
-      validRange.from = moment().add(1, 'day');
+      validRange.from = addDays(date, 1);
       delete validRange.to;
-      const myDate1 = moment();
-      const myDate2 = moment().add(1, 'year');
+      const myDate1 = date;
+      const myDate2 = addYears(date, 1);
       state.set(myDate2, STATES.AVAILABLE);
 
       expect(comp.stateFn(myDate1)).toEqual([STATES.DISABLED]);
@@ -75,10 +75,10 @@ describe('calendar component', () => {
 
     it('set the stateFn using validRange to without from', () => {
       delete validRange.from;
-      validRange.to = moment().add(2, 'day');
+      validRange.to = addDays(date, 2);
 
-      const myDate1 = moment();
-      const myDate2 = moment().add(3, 'day');
+      const myDate1 = date;
+      const myDate2 = addDays(date, 3);
       state.set(myDate1, STATES.AVAILABLE);
 
       expect(comp.stateFn(myDate1)).toEqual([STATES.AVAILABLE]);
@@ -96,8 +96,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment().add(2, 'days');
+      validRange.from = date
+      validRange.to = addDays(date, 2);
       expect(comp.canGoNext()).toBe(false);
     });
 
@@ -105,8 +105,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment().add(2, 'days');
+      validRange.from = date
+      validRange.to = addDays(date, 2);
       expect(comp.canGoPrev()).toBe(false);
     });
 
@@ -124,8 +124,8 @@ describe('calendar component', () => {
       comp.navigationStrategy = 'validRange';
       detectChanges(fixture);
 
-      validRange.from = moment();
-      validRange.to = moment();
+      validRange.from = date;
+      validRange.to = date;
       expect(comp.canGoNext()).toBe(false);
       expect(comp.canGoPrev()).toBe(false);
     });
@@ -139,8 +139,8 @@ describe('calendar component', () => {
 
     it('should can go next if there is a date available in next month when strategy is state', () => {
       comp.navigationStrategy = 'state';
-      const date = moment().add(1, 'month');
-      state.set(date, STATES.AVAILABLE);
+      const myDate = addMonths(date, 1);
+      state.set(myDate, STATES.AVAILABLE);
 
       detectChanges(fixture);
       expect(comp.canGoNext()).toBe(true);
@@ -148,8 +148,8 @@ describe('calendar component', () => {
 
     it('should can go prev if there is a date available in prev month when strategy is state', () => {
       comp.navigationStrategy = 'state';
-      const date = moment().subtract(2, 'month');
-      state.set(date, STATES.AVAILABLE);
+      const myDate = subMonths(date, 2);
+      state.set(myDate, STATES.AVAILABLE);
 
       detectChanges(fixture);
       expect(comp.canGoPrev()).toBe(true);
@@ -158,8 +158,8 @@ describe('calendar component', () => {
     it('should can go next if there is a date selected in next month when strategy is state', () => {
       comp.navigationStrategy = 'state';
       comp.navigationState = STATES.SELECTED;
-      const date = moment().add(1, 'month');
-      state.set(date, STATES.SELECTED);
+      const myDate = addMonths(date, 1);
+      state.set(myDate, STATES.SELECTED);
 
       detectChanges(fixture);
       expect(comp.canGoNext()).toBe(true);
@@ -168,8 +168,8 @@ describe('calendar component', () => {
     it('should can go prev if there is a date selected in prev month when strategy is state', () => {
       comp.navigationStrategy = 'state';
       comp.navigationState = STATES.SELECTED;
-      const date = moment().subtract(2, 'month');
-      state.set(date, STATES.SELECTED);
+      const myDate = subMonths(date, 2);
+      state.set(myDate, STATES.SELECTED);
 
       detectChanges(fixture);
       expect(comp.canGoPrev()).toBe(true);

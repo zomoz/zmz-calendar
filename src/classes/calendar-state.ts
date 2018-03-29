@@ -1,9 +1,8 @@
-import * as moment from 'moment';
-
 import { isArray, keys, sortBy } from 'lodash';
 
 import { dateHash } from '../helpers';
 import { DateMap, State, StateMap } from '../types';
+import { startOfDay, parse } from 'date-fns';
 
 // TODO add tests extending states
 export const STATES: StateMap<State> = {
@@ -19,16 +18,16 @@ export const STATES: StateMap<State> = {
 export class CalendarState {
   map: DateMap;
 
-  constructor(dates: moment.Moment[], defaultState: State = STATES.NO_STATE) {
+  constructor(dates: Date[], defaultState: State = STATES.NO_STATE) {
     /** Populate map with stateless dates */
     this.map = {};
-    dates.forEach((date: moment.Moment) => {
-      const hash = dateHash(date);
+    dates.forEach(date => {
+      const hash = dateHash(startOfDay(date));
       this.map[hash] = [defaultState];
     });
   }
 
-  set(date: moment.Moment, state: State) {
+  set(date: Date, state: State) {
     const hash = dateHash(date);
     if (isArray(this.map[hash]) && this.map[hash].findIndex((st) => st === state) === -1) {
       this.map[hash].push(state);
@@ -37,7 +36,7 @@ export class CalendarState {
     }
   }
 
-  toggle(date: moment.Moment, state: State) {
+  toggle(date: Date, state: State) {
     const hash = dateHash(date);
     let states = this.map[hash];
 
@@ -54,17 +53,17 @@ export class CalendarState {
 
   }
 
-  has(date: moment.Moment, state: State): boolean {
+  has(date: Date, state: State): boolean {
     const hash = dateHash(date);
     return isArray(this.map[hash]) ? this.map[hash].findIndex((st) => st === state) !== -1 : false;
   }
 
-  get(date: moment.Moment): State[] {
+  get(date: Date): State[] {
     const hash = dateHash(date);
     return this.map[hash] || [];
   }
 
-  remove(date: moment.Moment, state: State) {
+  remove(date: Date, state: State) {
     const hash = dateHash(date);
     let states = this.map[hash];
     if (isArray(states)) {
@@ -73,20 +72,20 @@ export class CalendarState {
     }
   }
 
-  getAll(state: State): moment.Moment[] {
+  getAll(state: State): Date[] {
     const all = keys(this.map).filter((hash) =>
       isArray(this.map[hash]) ? this.map[hash].findIndex((st) => st === state) !== -1 : false
     );
 
-    return all.map((hash) => moment(hash));
+    return all.map((hash) => parse(hash));
   }
 
-  getLast(state: State): moment.Moment {
+  getLast(state: State): Date {
     const all = sortBy(this.getAll(state));
     return all[all.length - 1];
   }
 
-  getFirst(state: State): moment.Moment {
+  getFirst(state: State): Date {
     const all = sortBy(this.getAll(state));
     return all[0];
   }

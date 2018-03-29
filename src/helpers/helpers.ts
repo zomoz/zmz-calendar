@@ -1,7 +1,19 @@
-import * as moment from 'moment';
 import { range } from 'lodash';
 
-import { State } from '../types';
+import {
+  format,
+  endOfMonth, startOfDay,
+  getDay,
+  addDays, subDays,
+  isBefore,
+  startOfMonth,
+  startOfWeek,
+  startOfISOWeek,
+  endOfWeek,
+  endOfISOWeek
+} from 'date-fns';
+
+import { State, CalendarLocale } from '../types';
 
 const firstDayOfWeek = 0;
 const lastDayOfWeek = 6;
@@ -10,52 +22,40 @@ const lastDayOfWeek = 6;
  * Returns the first day to show in a month depending on the first day of the week
  * @param month (1 - indexed)
  * @param year 
- * @return date as Moment
+ * @return date as Date
  */
-export function firstDateToShow(month: number, year: number) : moment.Moment {
-    const startMonth = moment([year, month - 1]);
-
-    if (startMonth.weekday() > firstDayOfWeek) {
-      const diff = startMonth.weekday() - firstDayOfWeek;
-      return startMonth.subtract(diff, 'days')
-    } else {
-      return startMonth;
-    }
+export function firstDateToShow(month: number, year: number, locale: CalendarLocale) : Date {
+  const startMonth = startOfDay(startOfMonth(new Date(year, month - 1)));
+  return locale === 'en' ? startOfWeek(startMonth) : startOfISOWeek(startMonth)
 }
 
 /**
  * Returns the last day to show in a month depending on the last day of the week
  * @param month (1 - indexed)
  * @param year
- * @return date as Moment
+ * @return date as Date
  */
-export function lastDateToShow(month: number, year: number): moment.Moment {
-    const endMonth = moment([year, month - 1]).endOf('month').startOf('day');
-    if (endMonth.weekday() < lastDayOfWeek) {
-
-      const diff = lastDayOfWeek - endMonth.weekday();
-      return endMonth.add(diff, 'days')
-    } else {
-      return endMonth;
-    }
+export function lastDateToShow(month: number, year: number, locale: CalendarLocale): Date {
+  const endMonth = startOfDay(endOfMonth(new Date(year, month - 1)));
+  return startOfDay(locale === 'en' ? endOfWeek(endMonth) : endOfISOWeek(endMonth));
 }
 
 /**
  * Returns an array of weeks (or a matrix of dates) representing the month to show
  * @param month (1 - indexed)
  * @param year
- * @return weeks as Moment[][]
+ * @return weeks as Date[][]
  */
-export function weeksToShow(month: number, year: number): moment.Moment[][] {
-  const start = firstDateToShow(month, year);
-  const end = lastDateToShow(month, year);
+export function weeksToShow(month: number, year: number, locale: CalendarLocale): Date[][] {
+  let start = firstDateToShow(month, year, locale);
+  const end = lastDateToShow(month, year, locale);
   const weekDays = range(firstDayOfWeek, lastDayOfWeek + 1);
 
   let weeks = [];
-  while(start.isBefore(end)) {
+  while(isBefore(start, end)) {
     let week = weekDays.map((day: number) => {
-      const currDate = start.clone();
-      start.add(1, 'day');
+      const currDate = new Date(start.getTime());
+      start = addDays(start, 1);
       return currDate;
     });
 
@@ -65,6 +65,6 @@ export function weeksToShow(month: number, year: number): moment.Moment[][] {
   return weeks;
 }
 
-export function dateHash(date: moment.Moment) {
-    return date.format('YYYY-MM-DD');
+export function dateHash(date: Date) {
+  return format(date, 'YYYY-MM-DD');
 }

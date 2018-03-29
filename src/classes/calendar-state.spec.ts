@@ -1,14 +1,15 @@
-import * as moment from 'moment';
 import { CalendarState, STATES } from './calendar-state';
 import { State } from '../types';
 import { dateHash } from '../helpers';
+import { addDays, subDays } from 'date-fns';
 
 describe('state class', () => {
-  let date: moment.Moment;
+  let date: Date;
   let state: CalendarState;
 
   beforeEach(() => {
-    date = moment();
+    date = new Date('2018-03-03');
+    date.setHours(0, 0, 0, 0);
     state = new CalendarState([date]);
   });
 
@@ -57,8 +58,8 @@ describe('state class', () => {
   it('should get all dates with state SELECTED', () => {
     const SELECTED = STATES.SELECTED;
     const AVAILABLE = STATES.AVAILABLE;
-    const date1 = moment().add(1, 'day');
-    const date2 = moment().add(2, 'day');
+    const date1 = addDays(date, 1);
+    const date2 = addDays(date, 2);
 
     state.set(date, SELECTED);
     state.set(date1, SELECTED);
@@ -66,14 +67,14 @@ describe('state class', () => {
 
     const result = state.getAll(SELECTED);
     expect(result.length).toBe(2);
-    expect(result[0].format('YYYY-MM-DD')).toEqual(date.format('YYYY-MM-DD'));
-    expect(result[1].format('YYYY-MM-DD')).toEqual(date1.format('YYYY-MM-DD'));
+    expect(result[0]).toEqual(date);
+    expect(result[1]).toEqual(date1);
   });
 
   it('should get empty array of dates with state SELECTED', () => {
     const AVAILABLE = STATES.AVAILABLE;
-    const date1 = moment().add(1, 'day');
-    const date2 = moment().add(2, 'day');
+    const date1 = addDays(date, 1);
+    const date2 = addDays(date, 2);
 
     state.set(date, AVAILABLE);
     state.set(date1, AVAILABLE);
@@ -87,29 +88,29 @@ describe('state class', () => {
   it('should get first date with state AVAILABLE', () => {
 
     const AVAILABLE = STATES.AVAILABLE;
-    const date1 = moment().subtract(1, 'day');
-    const date2 = moment().add(2, 'day');
+    const date1 = subDays(date, 1);
+    const date2 = addDays(date, 2);
 
     state.set(date, AVAILABLE);
     state.set(date1, AVAILABLE);
     state.set(date2, AVAILABLE);
 
     const result = state.getFirst(AVAILABLE);
-    expect(result.format('YYYY-MM-DD')).toEqual(date1.format('YYYY-MM-DD'));
+    expect(result).toEqual(date1);
   });
 
   it('should get last date with state AVAILABLE', () => {
 
     const AVAILABLE = STATES.AVAILABLE;
-    const date1 = moment().subtract(1, 'day');
-    const date2 = moment().add(2, 'day');
+    const date1 = subDays(date, 1);
+    const date2 = addDays(date, 2);
 
     state.set(date, AVAILABLE);
     state.set(date1, AVAILABLE);
     state.set(date2, AVAILABLE);
 
     const result = state.getLast(AVAILABLE);
-    expect(result.format('YYYY-MM-DD')).toEqual(date2.format('YYYY-MM-DD'));
+    expect(result).toEqual(date2);
   });
 
 });

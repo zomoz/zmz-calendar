@@ -1,5 +1,3 @@
-import * as moment from 'moment';
-
 export type State = 'selected'  // Selected date
                     | 'available'  // Available date
                     | 'unavailable' // Unavailable date (visibly unavailable but might accept actions on it)
@@ -22,7 +20,7 @@ export interface DateMap {
   [date: string]: State[];
 }
 
-export type Locale = string;
+export type CalendarLocale = 'es' | 'en';
 
 export type NavigationStrategy = 'validRange' | 'state' | boolean;
 
@@ -30,12 +28,12 @@ export type Theme = 'form' | 'show';
 
 export interface CalendarConfig {
   theme?: Theme;
-  locale?: Locale;
+  locale?: CalendarLocale;
   weekDayClickable?: boolean;
   completeMonths?: boolean;
   validRange?: {
-    from?: moment.Moment,
-    to?: moment.Moment
+    from?: Date,
+    to?: Date
   };
   navigationStrategy?: NavigationStrategy;
   navigationState?: State;
